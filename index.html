@@ -114,10 +114,9 @@ body.ig .rowhead .md{transform:none}
 
 /* Instagram landscape frame (1.91:1): register in two columns, shrunk by --k until it fits */
 body.ig .band,body.ig .top,body.ig .lede,body.ig .foot,body.ig .dossier,body.ig .legend .extra,body.ig .head{display:none!important}
-body.ig .wrap{box-sizing:border-box;width:min(1600px,100%);max-width:none;container-type:inline-size;margin:12px auto 24px;padding:2.4cqw 2.4cqw 1.8cqw;font-size:calc(.85cqw*var(--k));display:flex;flex-direction:column;box-shadow:0 0 0 1px var(--grey)}
-body.ig #register{columns:2;column-gap:3cqw;border-top:2px dotted var(--rule)}
+body.ig .wrap{box-sizing:border-box;width:min(1080px,100%);max-width:none;container-type:inline-size;margin:12px auto 24px;padding:2.4cqw 2.4cqw 1.8cqw;font-size:calc(.85cqw*var(--k));display:flex;flex-direction:column;box-shadow:0 0 0 1px var(--grey)}
+body.ig #register,body.ig #registerEn{border-top:2px dotted var(--rule)}
 body.ig .row{break-inside:avoid}
-body.ig .row:nth-child(11){break-before:column}
 
 body.ig .legend{font-size:calc(.8cqw*var(--k));margin-bottom:calc(.9cqw*var(--k));gap:.4cqw 1.6cqw}
 body.ig .alert{width:calc(1.1cqw*var(--k));height:calc(1.1cqw*var(--k));font-size:calc(.75cqw*var(--k))}
@@ -148,9 +147,9 @@ body.ig .igfoot strong{font-weight:700}
 <div class="band" aria-hidden="true"><span><span class="l-cs">STAV K 9. 11. 2026 ○ AKTUALIZACE INFOGRAFIKY NFPK ○ ZDROJE 2025–2026 ○ STAV K 9. 11. 2026 ○ AKTUALIZACE INFOGRAFIKY NFPK ○ ZDROJE 2025–2026 ○ STAV K 9. 11. 2026 ○ AKTUALIZACE INFOGRAFIKY NFPK ○ ZDROJE 2025–2026 ○ </span><span class="l-en" lang="en">STATUS AS OF 9 NOV 2026 ○ UPDATE OF THE NFPK INFOGRAPHIC ○ SOURCES 2025–2026 ○ STATUS AS OF 9 NOV 2026 ○ UPDATE OF THE NFPK INFOGRAPHIC ○ SOURCES 2025–2026 ○ STATUS AS OF 9 NOV 2026 ○ UPDATE OF THE NFPK INFOGRAPHIC ○ SOURCES 2025–2026 ○ </span></span></div>
 <div class="tools">
   <button type="button" id="langBtn"><span class="l-cs">English</span><span class="l-en" lang="en">Česky</span></button>
-  <button type="button" id="igMode" aria-pressed="false"><span class="l-cs">Instagram na šířku</span><span class="l-en" lang="en">Instagram landscape</span></button>
+  <button type="button" id="pngExport"><span class="l-cs">PNG export</span><span class="l-en" lang="en">PNG export</span></button>
   <button type="button" id="expandAll"><span class="l-cs">Rozbalit vše</span><span class="l-en" lang="en">Expand all</span></button>
-  <button type="button" id="collapseAll"><span class="l-cs">Sbalit vše</span><span class="l-en" lang="en">Collapse all</span></button>
+  <button type="button" id="collapseAll"><span class="l-cs">Sbalit vše</span><span class="l-en" lang="en">Close all</span></button>
 </div>
 <div class="wrap" id="frame">
   <h1 class="vh"><span class="l-cs">Komu patří česká média</span><span class="l-en" lang="en">Who owns Czech media</span></h1>
@@ -566,17 +565,77 @@ document.getElementById('expandAll').onclick = () => all(true);
 document.getElementById('collapseAll').onclick = () => all(false);
 
 const frame = document.getElementById('frame');
+/* Instagram portrait 4:5 (1080 x 1350): shrink the type until the whole register fits */
+function fitPortrait(fr){
+  let k = 1.9;
+  fr.style.minHeight = '';
+  fr.style.setProperty('--k', k);
+  while (fr.offsetHeight > fr.offsetWidth * 1.25 && k > 0.6) { k -= 0.02; fr.style.setProperty('--k', k.toFixed(2)); }
+  fr.style.minHeight = (fr.offsetWidth * 1.25) + 'px';
+}
 function fitIg(){
   frame.style.minHeight = '';
   if (!document.body.classList.contains('ig')) { frame.style.removeProperty('--k'); return; }
-  let k = 0.9;
-  frame.style.setProperty('--k', k);
-  while (frame.offsetHeight > frame.offsetWidth / 1.91 && k > 0.5) { k -= 0.02; frame.style.setProperty('--k', k.toFixed(2)); }
-  frame.style.minHeight = (frame.offsetWidth / 1.91) + 'px';
+  fitPortrait(frame);
 }
-const igBtn = document.getElementById('igMode');
-const setIg = on => { document.body.classList.toggle('ig', on); igBtn.setAttribute('aria-pressed', on); fitIg(); };
-igBtn.onclick = () => setIg(!document.body.classList.contains('ig'));
+const setIg = on => { document.body.classList.toggle('ig', on); fitIg(); };
+
+/* PNG export: the Instagram portrait layout is rebuilt in a hidden 1080px iframe (so media queries and
+   container units match), fitted to 4:5, drawn through an SVG foreignObject onto a canvas, then shared or downloaded. */
+const pngBtn = document.getElementById('pngExport');
+pngBtn.addEventListener('click', async () => {
+  const en = document.body.classList.contains('en');
+  const W = 1080, H = 1350, SCALE = 2;
+  const label = pngBtn.innerHTML;
+  pngBtn.disabled = true; pngBtn.textContent = en ? 'Exporting…' : 'Exportuji…';
+  const ifr = document.createElement('iframe');
+  try {
+    const css = [...document.querySelectorAll('style')].map(x => x.textContent).join('\n') +
+      `\n[hidden]{display:none!important}html,body{margin:0;padding:0;background:#fff}
+       body.ig .wrap{width:${W}px!important;margin:0!important;box-shadow:none!important}`;
+    const clone = frame.cloneNode(true);
+    clone.querySelectorAll('.trail').forEach(c => c.classList.remove('trail'));
+    clone.querySelectorAll('.dossier').forEach(d => d.hidden = true);
+    clone.style.cssText = '';
+    ifr.style.cssText = `position:fixed;left:-${W*3}px;top:0;width:${W}px;height:${H}px;border:0;visibility:hidden`;
+    document.body.appendChild(ifr);
+    const d = ifr.contentDocument;
+    d.open(); d.write('<!doctype html><html><head><meta charset="utf-8"></head><body></body></html>'); d.close();
+    const st = d.createElement('style'); st.textContent = css; d.head.appendChild(st);
+    d.body.className = 'ig' + (en ? ' en' : '');
+    d.body.appendChild(d.importNode(clone, true));
+    const fr = d.getElementById('frame');
+    fitPortrait(fr);
+    fr.style.height = H + 'px'; fr.style.overflow = 'hidden';
+    const xml = new XMLSerializer().serializeToString(d.documentElement);
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}"><foreignObject x="0" y="0" width="${W}" height="${H}">${xml}</foreignObject></svg>`;
+    const img = new Image();
+    img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+    await img.decode();
+    const cv = document.createElement('canvas'); cv.width = W * SCALE; cv.height = H * SCALE;
+    const ctx = cv.getContext('2d'); ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, cv.width, cv.height);
+    ctx.drawImage(img, 0, 0, cv.width, cv.height);
+    const blob = await new Promise((ok, no) => cv.toBlob(b => b ? ok(b) : no(new Error('toBlob')), 'image/png'));
+    const name = en ? 'who-owns-czech-media.png' : 'komu-patri-ceska-media.png';
+    const file = new File([blob], name, { type: 'image/png' });
+    let shared = false;
+    if (navigator.canShare && matchMedia('(pointer:coarse)').matches && navigator.canShare({ files: [file] })) {
+      try { await navigator.share({ files: [file] }); shared = true; } catch (e) { shared = e && e.name === 'AbortError'; }
+    }
+    if (!shared) {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = name;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 4000);
+    }
+  } catch (e) {
+    console.error(e);
+    pngBtn.textContent = en ? 'Export failed – try Chrome' : 'Export selhal – zkus Chrome';
+    setTimeout(() => { pngBtn.innerHTML = label; }, 3000);
+    ifr.remove(); pngBtn.disabled = false; return;
+  }
+  ifr.remove(); pngBtn.disabled = false; pngBtn.innerHTML = label;
+});
 window.addEventListener('resize', fitIg);
 /* language: one page, two registers and two titles; #en, #en-instagram, #en-vse keep the English view in links */
 function setLang(en){
