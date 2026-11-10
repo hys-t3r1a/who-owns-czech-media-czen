@@ -1,0 +1,681 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>[hidden]{display:none!important}body{margin:0}img{max-width:100%}</style>
+</head>
+<body>
+<title>Komu patří česká média</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: a typed register on dotted rules; each owner row unfolds into a short dossier. One deliberate white look, Arial stretched tall. */
+:root{
+  --paper:#ffffff;
+  --ink:#000000;
+  --rule:#000000;
+  --grey:#9a9a9a;
+  --red:#ff4500;
+  --blue:#0a2cff;
+  --sans:Arial,"Helvetica Neue",Helvetica,sans-serif;
+  --k:1;
+  color-scheme:light;
+}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.4;font-variant-numeric:tabular-nums}
+a{color:inherit}
+a:focus-visible,[role="button"]:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+/* the tall, condensed-looking Arial used for names, media, shares and point numbers */
+.tall{font-weight:700;text-transform:uppercase;letter-spacing:-.01em;display:inline-block;transform:scaleY(1.22);transform-origin:center;line-height:1.1}
+
+.band{background:var(--ink);color:var(--paper);overflow:hidden;white-space:nowrap;font-size:12px;letter-spacing:.04em;padding-block:5px}
+.band span{display:inline-block;padding-left:16px}
+.tools{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:flex-end;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:10px 0;font-size:12px;text-transform:uppercase;letter-spacing:.06em}
+.tools button{font:inherit;text-transform:inherit;letter-spacing:inherit;background:none;border:0;padding:0;cursor:pointer;color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+body:not(.en) .l-en,body.en .l-cs{display:none!important}
+.tools button[aria-pressed="true"]{background:var(--ink);color:var(--paper);text-decoration:none;padding:0 6px}
+
+.wrap{padding-left:max(16px,3vw,env(safe-area-inset-left,0px));padding-right:max(16px,3vw,env(safe-area-inset-right,0px));padding-block:14px 48px;max-width:none;margin:0 auto}
+.top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px;font-size:12px;text-transform:uppercase;letter-spacing:.06em}
+h1{font-weight:700;font-size:clamp(40px,8.4vw,104px);line-height:.98;letter-spacing:-.035em;margin:28px 0 calc(10px + .16em);transform:scaleY(1.16);transform-origin:top left;text-transform:uppercase;text-wrap:balance}
+.lede{max-width:68ch;margin:0 0 18px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 22px;font-size:12px;margin-bottom:20px;align-items:center}
+.legend .k{display:inline-flex;gap:7px;align-items:center}
+
+.alert{display:inline-grid;place-items:center;width:17px;height:17px;border-radius:50%;background:var(--red);color:#fff;font-weight:700;font-size:12px;line-height:1;flex:none}
+.pill{display:inline-block;border:1px solid var(--ink);border-radius:999px;padding:1px 8px;font-size:11px;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap;line-height:1.4}
+.pill.grey{background:var(--grey);border-color:var(--grey);color:#fff}
+
+/* register */
+.head,.rowhead{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,2.3fr) minmax(0,.65fr);gap:16px;align-items:center}
+.head{font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding-bottom:6px;border-bottom:2px dotted var(--rule)}
+.row{border-bottom:2px dotted var(--rule)}
+.rowhead{padding:8px 0;cursor:pointer}
+.who{display:flex;flex-wrap:wrap;gap:5px 9px;align-items:center;min-width:0}
+.nm{font-size:18px;text-decoration:none}
+.row[aria-expanded="true"] .nm{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px}
+.media{min-width:0;display:flex;flex-wrap:wrap;gap:3px 12px}
+.md{font-size:15px;color:var(--blue);text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:2px}
+.dossier[hidden]{display:none}
+.rowhead .media{gap:4px}
+.rowhead .md{color:#fff;background:var(--ink);text-decoration:none;transform:none;font-size:13px;line-height:1.25;padding:1px 5px;white-space:nowrap}
+.sh{font-size:18px}
+.sh.small{font-size:12px;font-weight:400;text-transform:none;transform:none}
+.row.hot .nm,.row.hot .sh{color:var(--red)}
+.row.hot .who .pill:not(.grey){border-color:var(--red);color:var(--red)}
+
+/* dossier */
+.dossier{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,2.3fr) minmax(0,.65fr);gap:16px;padding:6px 0 22px}
+.facts{min-width:0}
+.facts dl{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 12px;margin:0}
+.facts dt{font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding-top:2px}
+.facts dd{margin:0}
+.points{list-style:none;margin:0;padding:0;display:grid;gap:12px;min-width:0}
+.points li{display:grid;grid-template-columns:34px minmax(0,1fr);gap:8px;align-items:start}
+.points .no{font-size:18px}
+.points strong{font-weight:700}
+.src{font-size:12px}
+.outlets{list-style:none;margin:0;padding:0;display:grid;gap:8px;min-width:0;align-content:start}
+.outlets li{display:flex;flex-direction:column;gap:2px}
+.outlets .note{font-size:12px}
+
+.foot{margin-top:28px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;font-size:12px}
+.foot h2{font-weight:700;text-transform:uppercase;font-size:15px;margin:0 0 6px;padding-bottom:6px;border-bottom:2px dotted var(--rule)}
+.former{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:4px 12px}
+.former div{padding:3px 0;border-bottom:2px dotted var(--rule)}
+.foot p{margin:0 0 6px;max-width:68ch}
+.igfoot{display:none}
+
+
+/* interactive pixel title: letters on black cells, a static snake joins the words, the pointer leaves a fading snake */
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.title{container-type:inline-size;margin:22px 0 22px;user-select:none;-webkit-user-select:none;touch-action:pan-y}
+.tgrid{position:relative}
+.tfine{display:grid}
+.tfine .cell{aspect-ratio:1/1;--t:0px;--b:0px;--l:0px;--r:0px;--tl:0px;--tr:0px;--bl:0px;--br:0px}
+.tfine .cell.on,.tfine .cell.trail,.tfine .cell.wc{background:var(--ink)}
+.tfine .cell.wc{cursor:pointer}
+.tfine .cell.on,.tfine .cell.trail,.tfine .cell.wc{box-shadow:0 0 0 .6px var(--ink)}
+.tfine .cell.wc.w{background:linear-gradient(var(--ink),var(--ink)) 0 0/var(--tl) var(--tl) no-repeat,linear-gradient(var(--ink),var(--ink)) 100% 0/var(--tr) var(--tr) no-repeat,linear-gradient(var(--ink),var(--ink)) 0 100%/var(--bl) var(--bl) no-repeat,linear-gradient(var(--ink),var(--ink)) 100% 100%/var(--br) var(--br) no-repeat,#fff;box-shadow:inset 0 var(--t) 0 var(--ink),inset 0 calc(-1*var(--b)) 0 var(--ink),inset var(--l) 0 0 var(--ink),inset calc(-1*var(--r)) 0 0 var(--ink)}
+/* every letter sits centred in a block of identical size; the block is ~20 % taller and wider than the letter incl. diacritics */
+.glyph{position:absolute;display:grid;place-items:center;pointer-events:none;color:#fff;font-weight:700;font-size:4.05cqw;line-height:1;text-transform:uppercase}
+.glyph span{display:block;transform:translateY(.06em) scaleY(1.58)}
+.web .tgrid{z-index:0;--T:calc(100cqw/13)}
+.tgrid::before{content:"";position:absolute;inset:-3px;z-index:-1;pointer-events:none;background-image:radial-gradient(circle at center,var(--ink) 0 1px,transparent 1.4px);background-size:var(--T) var(--T);background-position:calc(3px - var(--T)/2) calc(3px - var(--T)/2)}
+.glyph.w{color:var(--ink)}
+.title.igt{display:none}
+body.ig .title.web{display:none}
+body.ig .title.igt{display:block;width:100%;margin:0 0 calc(1.4cqw*var(--k))}
+.igt .tgrid{z-index:0;--T:calc(100cqw/24)}
+.igt .glyph{font-size:2.2cqw}
+.igt .glyph span{transform:translateY(.06em) scaleY(1.58)}
+body.ig .tall{transform:scaleY(1.3)}
+body.ig .rowhead .md{transform:none}
+
+/* Instagram landscape frame (1.91:1): register in two columns, shrunk by --k until it fits */
+body.ig .band,body.ig .top,body.ig .lede,body.ig .foot,body.ig .dossier,body.ig .legend .extra,body.ig .head{display:none!important}
+body.ig .wrap{box-sizing:border-box;width:min(1600px,100%);max-width:none;container-type:inline-size;margin:12px auto 24px;padding:2.4cqw 2.4cqw 1.8cqw;font-size:calc(.85cqw*var(--k));display:flex;flex-direction:column;box-shadow:0 0 0 1px var(--grey)}
+body.ig #register{columns:2;column-gap:3cqw;border-top:2px dotted var(--rule)}
+body.ig .row{break-inside:avoid}
+body.ig .row:nth-child(11){break-before:column}
+
+body.ig .legend{font-size:calc(.8cqw*var(--k));margin-bottom:calc(.9cqw*var(--k));gap:.4cqw 1.6cqw}
+body.ig .alert{width:calc(1.1cqw*var(--k));height:calc(1.1cqw*var(--k));font-size:calc(.75cqw*var(--k))}
+body.ig .pill{font-size:calc(.62cqw*var(--k));padding:0 .45cqw}
+body.ig .rowhead{gap:.9cqw;padding:calc(.42cqw*var(--k)) 0;grid-template-columns:minmax(0,1.5fr) minmax(0,2.2fr) minmax(0,.75fr)}
+body.ig .nm{font-size:calc(1.15cqw*var(--k))}
+body.ig .sh{font-size:calc(1.15cqw*var(--k));white-space:nowrap}
+body.ig .sh.small{font-size:calc(.75cqw*var(--k))}
+body.ig .rowhead .md{font-size:calc(.8cqw*var(--k));padding:calc(.05cqw*var(--k)) calc(.3cqw*var(--k))}
+body.ig .rowhead .media{gap:calc(.22cqw*var(--k))}
+body.ig .igfoot{display:flex;justify-content:space-between;gap:2cqw;margin-top:auto;padding-top:calc(1cqw*var(--k));font-size:calc(.72cqw*var(--k))}
+body.ig .igfoot strong{font-weight:700}
+
+@media (max-width:820px){
+  body:not(.ig) .head{display:none}
+  body:not(.ig) .rowhead{grid-template-columns:minmax(0,1fr) auto;gap:6px 12px}
+  body:not(.ig) .rowhead .media{grid-column:1 / 3}
+  body:not(.ig) .rowhead .sh{grid-column:2;grid-row:1;text-align:right}
+  .dossier{grid-template-columns:1fr}
+  .foot{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:no-preference){
+  .dossier{animation:unfold .18s ease-out}
+  @keyframes unfold{from{opacity:.3;transform:translateY(-3px)}to{opacity:1;transform:none}}
+}
+</style>
+
+<div class="band" aria-hidden="true"><span><span class="l-cs">STAV K 9. 11. 2026 ○ AKTUALIZACE INFOGRAFIKY NFPK ○ ZDROJE 2025–2026 ○ STAV K 9. 11. 2026 ○ AKTUALIZACE INFOGRAFIKY NFPK ○ ZDROJE 2025–2026 ○ STAV K 9. 11. 2026 ○ AKTUALIZACE INFOGRAFIKY NFPK ○ ZDROJE 2025–2026 ○ </span><span class="l-en" lang="en">STATUS AS OF 9 NOV 2026 ○ UPDATE OF THE NFPK INFOGRAPHIC ○ SOURCES 2025–2026 ○ STATUS AS OF 9 NOV 2026 ○ UPDATE OF THE NFPK INFOGRAPHIC ○ SOURCES 2025–2026 ○ STATUS AS OF 9 NOV 2026 ○ UPDATE OF THE NFPK INFOGRAPHIC ○ SOURCES 2025–2026 ○ </span></span></div>
+<div class="tools">
+  <button type="button" id="langBtn"><span class="l-cs">English</span><span class="l-en" lang="en">Česky</span></button>
+  <button type="button" id="igMode" aria-pressed="false"><span class="l-cs">Instagram na šířku</span><span class="l-en" lang="en">Instagram landscape</span></button>
+  <button type="button" id="expandAll"><span class="l-cs">Rozbalit vše</span><span class="l-en" lang="en">Expand all</span></button>
+  <button type="button" id="collapseAll"><span class="l-cs">Sbalit vše</span><span class="l-en" lang="en">Collapse all</span></button>
+</div>
+<div class="wrap" id="frame">
+  <h1 class="vh"><span class="l-cs">Komu patří česká média</span><span class="l-en" lang="en">Who owns Czech media</span></h1>
+  <div class="title web l-cs" id="title" aria-hidden="true"><div class="tgrid" id="tgrid"></div></div>
+  <div class="title igt l-cs" id="titleIg" aria-hidden="true"><div class="tgrid" id="tgridIg"></div></div>
+  <div class="title web l-en" id="titleEn" aria-hidden="true"><div class="tgrid" id="tgridEn"></div></div>
+  <div class="title igt l-en" id="titleIgEn" aria-hidden="true"><div class="tgrid" id="tgridIgEn"></div></div>
+  <div class="legend">
+    <span class="k"><span class="alert" aria-hidden="true">!</span> <span class="l-cs">doložený zásah do obsahu nebo vlastníkem přiznaný zájem na vlivu</span><span class="l-en" lang="en">documented interference in content or an owner’s admitted interest in influence</span></span>
+    <span class="k"><span class="pill"><span class="l-cs">skupina</span><span class="l-en" lang="en">group</span></span> <span class="l-cs">mediální skupina</span><span class="l-en" lang="en">media group</span></span>
+    <span class="k extra"><span class="pill grey"><span class="l-cs">konkurz</span><span class="l-en" lang="en">insolvency</span></span> <span class="l-cs">médium v insolvenci</span><span class="l-en" lang="en">outlet in insolvency</span></span>
+  </div>
+  <div class="head" aria-hidden="true"><span><span class="l-cs">Vlastník</span><span class="l-en" lang="en">Owner</span></span><span><span class="l-cs">Média</span><span class="l-en" lang="en">Media</span></span><span><span class="l-cs">Podíl</span><span class="l-en" lang="en">Stake</span></span></div>
+  <div id="register" class="l-cs"></div>
+  <div id="registerEn" class="l-en" lang="en"></div>
+  <div class="igfoot"><span><span class="l-cs">Zdroje: MUP Praha 2026, MediaGuru, Lupa.cz, ČT24, Seznam Zprávy, Forbes a další. Navazuje na infografiku NFPK.</span><span class="l-en" lang="en">Sources: MUP Prague 2026, MediaGuru, Lupa.cz, ČT24, Seznam Zprávy, Forbes and others. Builds on the NFPK infographic.</span></span><strong><span class="l-cs">Detaily a zdroje: odkaz v biu</span><span class="l-en" lang="en">Details and sources: link in bio</span></strong></div>
+  <div class="foot">
+    <section>
+      <h2><span class="l-cs">Bývalí vlastníci</span><span class="l-en" lang="en">Former owners</span></h2>
+      <div class="former">
+        <div>Andrej Babiš</div><div>Mafra, Londa → Kaprain (2/2024). <span class="l-cs">Od 12/2025 premiér.</span><span class="l-en" lang="en">Prime minister since 12/2025.</span></div>
+        <div>František Savov</div><div>Mladá fronta (Euro) → <span class="l-cs">konkurz</span><span class="l-en" lang="en">insolvency</span></div>
+        <div>Jaromír Soukup, CEFC</div><div>Empresa, TV Barrandov → Jan Čermák (2024)</div>
+        <div>Ivo Valenta</div><div>Parlamentní listy → Španěl <span class="l-cs">a</span><span class="l-en" lang="en">and</span> Pavlíček (6/2023)</div>
+        <div>Zdeněk Porybný</div><div>Právo, Novinky → Seznam.cz</div>
+        <div>Time Warner</div><div>TV Nova → PPF (10/2020)</div>
+      </div>
+    </section>
+    <section>
+      <h2><span class="l-cs">Metodika a zdroje</span><span class="l-en" lang="en">Method and sources</span></h2>
+      <p class="l-cs">Body vycházejí z veřejně dostupných článků a výročních zpráv z let 2023–2026; zdroj je uveden u každého bodu. Kritické body popisují doložená fakta a možné střety zájmů, ne obvinění.</p>
+      <p class="l-en" lang="en">The points are based on publicly available articles and annual reports from 2023–2026; the source is given with each point. Critical points describe documented facts and possible conflicts of interest, not accusations. Sources are mostly in Czech.</p>
+      <p class="l-cs">Souhrnné zdroje: <a href="https://mup.rozanek.cz/prezentace_vlastnici_medii_2026.pdf" target="_blank" rel="noopener">MUP Praha, duben 2026</a> · <a href="https://www.mediaguru.cz/aktualizovana-mapa-vlastniku-ceskych-medii-2024" target="_blank" rel="noopener">MediaGuru, mapa vlastníků 2024</a>. Navazuje na infografiku Nadačního fondu proti korupci (2017–2018).</p>
+      <p class="l-en" lang="en">Overview sources: <a href="https://mup.rozanek.cz/prezentace_vlastnici_medii_2026.pdf" target="_blank" rel="noopener">MUP Prague, April 2026</a> · <a href="https://www.mediaguru.cz/aktualizovana-mapa-vlastniku-ceskych-medii-2024" target="_blank" rel="noopener">MediaGuru, owner map 2024</a>. Builds on the infographic by the Endowment Fund Against Corruption (NFPK, 2017–2018).</p>
+    </section>
+  </div>
+</div>
+
+<script>
+const S = (t,u) => `<a class="src" href="${u}" target="_blank" rel="noopener">${t}</a>`;
+const groupsCs = [
+ {name:"Mafra a Londa", owners:[
+  {who:"Karel Pražák", ini:"KP", alert:false, share:"50 %", hold:"Kaprain", biz:"chemie, developerské projekty, sport (HC Sparta, FK Pardubice)",
+   profile:"https://forbes.cz/lists/nc25/karel-prazak/",
+   media:[["MF Dnes",0,"https://www.idnes.cz","celostátní deník"],["iDNES.cz",0,"https://www.idnes.cz","zpravodajský web"],["Lidovky.cz",0,"https://www.lidovky.cz","tištěné LN skončily 8/2025"],["Metro",0,"https://www.metro.cz","bezplatný deník"],["Rádio Impuls",0,"https://www.impuls.cz","Londa"]],
+   points:[
+    `<strong>Koupil Mafru od Babiše.</strong> Kaprain převzal Mafru a Londu od Agrofertu k 1. 2. 2024, spolu s chemičkou Synthesia. ${S("ČT24","https://ct24.ceskatelevize.cz/clanek/ekonomika/mafru-a-synthesii-koupila-od-agrofertu-skupina-kaprain-podnikatele-prazaka-2490")}`,
+    `<strong>Vyrostl v PPF, dnes je s ní ve sporu.</strong> Byl krizovým manažerem Petra Kellnera; nákup financoval úvěr od Penty, majitele konkurenčního VLM. ${S("Seznam Zprávy","https://www.seznamzpravy.cz/clanek/ekonomika-firmy-skupina-kaprain-miliardare-prazaka-se-chce-zbavit-uveru-od-penty-277130")}`,
+    `<strong>Byznys, o kterém Mafra píše.</strong> Chemie (Spolchemie, Synthesia), pražský development a sport; široká síť vazeb od PPF po spornější podnikatele. ${S("Seznam Zprávy","https://www.seznamzpravy.cz/clanek/ekonomika-firmy-po-mafre-saha-karel-prazak-partak-miliardaru-i-postav-s-problemy-236105")}`]},
+  {who:"Pavel Tykač", ini:"PT", alert:false, share:"50 %", hold:"Tymeprax → Temaen Foundation", biz:"uhlí a energetika (Sev.en), SK Slavia Praha",
+   profile:"https://en.wikipedia.org/wiki/Pavel_Tyka%C4%8D",
+   media:[["MF Dnes",0,"https://www.idnes.cz","od 29. 5. 2026"],["iDNES.cz",0,"https://www.idnes.cz",""],["Lidovky.cz",0,"https://www.lidovky.cz",""],["Metro",0,"https://www.metro.cz",""],["Rádio Impuls",0,"https://www.impuls.cz",""]],
+   points:[
+    `<strong>Uhlobaron v médiích.</strong> Sev.en vlastní lomy na Mostecku a elektrárny Počerady a Chvaletice, jejichž uzavření ohlásila na přelom 2026/2027. ${S("ČT24","https://ct24.ceskatelevize.cz/tema/pavel-tykac-4872")}`,
+    `<strong>Minulost Motoinvestu.</strong> Kvůli tunelu v CS fondech čelil v letech 2006–2008 obvinění; stíhání bylo zastaveno, odsouzeni byli jiní. Podíl na tunelu odmítá. ${S("E15","https://www.e15.cz/domaci/stihani-tykace-kvuli-cs-fondum-je-zastaveno-svedci-odmitli-vypovidat-1258334")}`,
+    `<strong>Rodina a Slavia ve vedení.</strong> Do dozorčí rady Mafry usedla jeho dcera, do představenstva člen vedení Slavie. ${S("MediaGuru","https://www.mediaguru.cz/tykac-oficialne-prebira-podil-v-mafre-dcera-usedne-v-dozorci-rade")}`]}
+ ]},
+ {name:"Czech Media Invest", owners:[
+  {who:"Daniel Křetínský", ini:"DK", alert:true, share:"50 %", hold:"Czech Media Invest", biz:"energetika (EPH), AC Sparta, podíl ve West Hamu, Francie (Editis, Elle)",
+   profile:"https://en.wikipedia.org/wiki/Daniel_K%C5%99et%C3%ADnsk%C3%BD",
+   media:[["Blesk",1,"https://www.blesk.cz","nejprodávanější deník"],["Aha!",1,"https://www.ahaonline.cz",""],["Sport",1,"https://isport.blesk.cz","píše i o Spartě"],["E15",1,"https://www.e15.cz","ekonomický deník"],["Reflex",1,"https://www.reflex.cz",""],["Evropa 2",1,"https://www.evropa2.cz","Active Radio"],["Frekvence 1",1,"https://www.frekvence1.cz","Active Radio"]],
+   points:[
+    `<strong>Energetik s nejsilnějším bulvárem.</strong> Většinový vlastník EPH (70+ firem v 9 zemích), Sparty a podílu ve West Hamu. ${S("MUP 2026","https://mup.rozanek.cz/prezentace_vlastnici_medii_2026.pdf")}`,
+    `<strong>Doložený střet zájmů.</strong> Blesk v roce 2023 ostře kritizoval státní nákup NET4GAS a neuvedl, že o firmu stálo i EPH; upozornil na to CZ IPI. EPH zásahy odmítá. ${S("MediaGuru","https://www.mediaguru.cz/cz-ipi-pise-danielu-kretinskemu-kvuli-stretu-zajmu")}`,
+    `<strong>Média nejsou hlavní byznys.</strong> Většina tržeb CMI je ze zahraničí; v roce 2022 skončila CMI ve ztrátě 1,3 mld. Kč. ${S("MediaGuru","https://www.mediaguru.cz/obrat-czech-media-invest-tvori-vetsinove-zahranicni-media")}`]},
+  {who:"Patrik Tkáč", ini:"PT", alert:true, share:"40 %", hold:"J&T Capital Partners", biz:"finanční skupina J&T, 44 % EPH, 44 % AC Sparta",
+   profile:"https://www.cncenter.cz/en/about",
+   media:[["Blesk",1,"https://www.blesk.cz",""],["Aha!",1,"https://www.ahaonline.cz",""],["Sport",1,"https://isport.blesk.cz",""],["E15",1,"https://www.e15.cz",""],["Reflex",1,"https://www.reflex.cz",""],["Evropa 2",1,"https://www.evropa2.cz",""],["Frekvence 1",1,"https://www.frekvence1.cz",""]],
+   points:[
+    `<strong>Spoluzakladatel J&amp;T.</strong> Skupinu založil v roce 1994; podle Slovak Spectator měl snazší přístup ke kapitálu, protože jeho otec vedl státní banku IRB. ${S("Slovak Spectator","https://spectator.sme.sk/business/c/jt-from-broker-to-banker")}`,
+    `<strong>Tichý spolumajitel.</strong> Podíl drží přes holding J&amp;T Capital Partners; veřejně o médiích téměř nevystupuje. ${S("MediaGuru","https://www.mediaguru.cz/tkacuv-holding-j-t-capital-partners-prevezme-jeho-podil-v-cmi")}`,
+    `<strong>Stejné zájmy jako Křetínský.</strong> Jeho struktura vlastní 44 % EPH a J&amp;T drží 44 % Sparty. ${S("J&T","https://www.jtfg.com/en/press-releases/j3idlwdbgf-patrik-tkac-co-founder-of-j-t-finance-group-se-consolidates-joint-investments-with-daniel-kretinsky-into-j-t-capital-partners")}`]}
+ ]},
+ {name:"Penta / Vltava Labe Media", owners:[
+  {who:"Marek Dospiva", ini:"MD", alert:true, share:"přibližně 44 %", hold:"Penta Investments", biz:"lékárny Dr. Max, Penta Hospitals, Fortuna, development, Penta Bank",
+   profile:"https://forbes.cz/lists/cesti-dolarovi-miliardari-2024/marek-dospiva/",
+   media:[["Deník",2,"https://www.denik.cz","regionální deníky"],["Deník.cz",2,"https://www.denik.cz",""],["Květy",2,"https://www.kvety.cz",""],["Vlasta",2,"",""],["Story",2,"",""],["PNS",2,"","distribuce tisku"]],
+   points:[
+    `<strong>Média jako „atomový kufřík“.</strong> Před nákupem Deníku řekl, že vlastnictví médií Pentu chrání před „iracionálním napadáním“. ${S("MediaGuru","https://www.mediaguru.cz/clanky/2015/04/hn-dospiva-potvrdil-zajem-o-media-v-cesku")}`,
+    `<strong>Zdravotnictví, sázky, stavby.</strong> Dr. Max, nemocnice, Fortuna a development závisí na regulaci a povoleních, o kterých regionální Deníky píšou. ${S("Forbes","https://forbes.cz/lists/cesti-dolarovi-miliardari-2024/marek-dospiva/")}`,
+    `<strong>Žaloby na konkurenci.</strong> Na Slovensku Penta po vstupu do médií žalovala konkurenční redakce včetně Denníku N. ${S("MediaGuru","https://www.mediaguru.cz/penta-po-vstupu-do-medii-podala-zaloby-na-konkurenci")}`]},
+  {who:"Jaroslav Haščák", ini:"JH", alert:true, share:"přibližně 44 %", hold:"Penta Investments (svěřenský fond manželky a synů)", biz:"spoluzakladatel Penty, od 10/2024 znovu ve vedení",
+   profile:"https://en.wikipedia.org/wiki/Jaroslav_Ha%C5%A1%C4%8D%C3%A1k",
+   media:[["Deník",2,"https://www.denik.cz",""],["Deník.cz",2,"https://www.denik.cz",""],["Květy",2,"https://www.kvety.cz",""],["Vlasta",2,"",""],["Story",2,"",""]],
+   points:[
+    `<strong>Postava kauzy Gorila.</strong> Spis popisuje jeho schůzky s politiky v letech 2005–2006; Penta podezření z úplatků popírá a pravost záznamů nikdo nepotvrdil. ${S("E15","https://www.e15.cz/zahranicni/slovenska-prokuratura-zrusila-stihani-spoluzakladatele-penty-hascaka-v-kauze-gorila-1418460")}`,
+    `<strong>Obvinění bez odsouzení.</strong> Obviněn v letech 2020 a 2022, měsíc ve vazbě; obě stíhání zrušena, stát se mu omluvil. ${S("Penta","https://www.pentainvestments.com/en/jaroslav-hascak-returns-to-pentas-top-management/")}`,
+    `<strong>Podíl na rodině, moc u něj.</strong> Podíl převedl do svěřenského fondu pro manželku a syny, od října 2024 je ale zpět v nejvyšším vedení. ${S("ČT24","https://ct24.ceskatelevize.cz/clanek/ekonomika/penta-meni-vlastnickou-strukturu-hascak-prevadi-podil-na-rodinu-33781")}`]}
+ ]},
+ {name:"Economia", owners:[
+  {who:"Zdeněk Bakala", ini:"ZB", alert:false, share:"100 %", hold:"Economia", biz:"reality, dříve OKD; financuje Knihovnu Václava Havla",
+   profile:"https://en.wikipedia.org/wiki/Zden%C4%9Bk_Bakala",
+   media:[["Hospodářské noviny",3,"https://hn.cz","deník a HN.cz"],["Aktuálně.cz",3,"https://www.aktualne.cz",""],["Ekonom",3,"https://ekonom.cz","týdeník"],["Centrum.cz",3,"https://www.centrum.cz",""]],
+   points:[
+    `<strong>Jmění z OKD.</strong> Slíbil prodat 44 tisíc hornických bytů nájemníkům, místo toho je prodal investorovi; soud uznal, že slib nebyl závazný. OKD skončila v roce 2016 v insolvenci. ${S("Seznam Zprávy","https://www.seznamzpravy.cz/clanek/soud-rozhodl-bakaluv-slib-prodat-byty-najemnikum-nemel-pravni-vahu-116350")}`,
+    `<strong>Dotovaná média.</strong> Economii roky dotoval jako „srdeční záležitost“; v roce 2025 obrat 570 mil. Kč, ztráta necelé 3 mil. Kč. ${S("Echo24","https://echo24.cz/a/SRmJ6/bakala-dotuje-ztratovou-economii-desitkami-milionu-je-to-srdecni-zalezitost-rika")}`,
+    `<strong>Pojistka nezávislosti.</strong> Na jeho podnět vznikla Rada pro redakční nezávislost (2019), jiné soukromé médium ji nemá. ${S("MediaGuru","https://www.mediaguru.cz/clanky/2019/09/economia-ustavila-radu-pro-redakcni-nezavislost/")}`]}
+ ]},
+ {name:"Seznam.cz", owners:[
+  {who:"Ivo Lukačovič", ini:"IL", alert:false, share:"100 %", hold:"Seznam.cz (holding na Kypru)", biz:"vyhledávač, Mapy.cz, Sreality, reklama",
+   profile:"https://en.wikipedia.org/wiki/Ivo_Luka%C4%8Dovi%C4%8D",
+   media:[["Seznam Zprávy",4,"https://www.seznamzpravy.cz",""],["Novinky.cz",4,"https://www.novinky.cz",""],["Právo",4,"","97,56 % vydavatele Borgis"],["Televize Seznam",4,"",""],["Reportér",4,"https://reportermagazin.cz","třetinový podíl"]],
+   points:[
+    `<strong>Brána ke zprávám v jedněch rukou.</strong> Dva nejsilnější zpravodajské weby, deník a TV, k tomu titulní strana a vyhledávač, které určují, co lidé uvidí. ${S("MUP 2026","https://mup.rozanek.cz/prezentace_vlastnici_medii_2026.pdf")}`,
+    `<strong>Spor s premiérem.</strong> Babiš nazývá Seznam Zprávy a Novinky „aktivistickými“ a obviňuje Lukačoviče z vyhnutí se dani; Seznam to popírá a v březnu 2026 Babiše zažaloval. ${S("Lupa.cz","https://www.lupa.cz/aktuality/seznam-cz-zaluje-premiera-babise-kvuli-opakovanym-vyrokum-o-kraceni-dani/")}`,
+    `<strong>Vyhraněné postoje.</strong> Ze svého poslal 100 mil. Kč na zbraně pro Ukrajinu (2022) a dalších 100 mil. Kč (2025). Redakce tvrdí, že do obsahu nezasahuje. ${S("Lupa.cz","https://www.lupa.cz/aktuality/ivo-lukacovic-je-tajemny-darce-ktery-poslal-100-milionu-na-podporu-ukrajiny/")}`]}
+ ]},
+ {name:"PPF / CME", owners:[
+  {who:"Renáta Kellnerová", ini:"RK", alert:true, share:"100 %", hold:"PPF Group (se dcerami Annou, Larou a Marií Isabellou)", biz:"telekomunikace (O2), Škoda Transportation, finance, reality",
+   profile:"https://www.ppf.eu/en/press-release/renata-kellnerova-and-her-daughters-raise-their-ppf-group-shareholding-to-100",
+   media:[["TV Nova",0,"https://tn.nova.cz","nejsledovanější komerční TV"],["Oneplay",0,"https://www.oneplay.cz","Voyo + O2 TV"],["Nova Sport",0,"",""],["Markíza",0,"","Slovensko"]],
+   points:[
+    `<strong>Televize i síť v jednom.</strong> Nova a operátor O2 patří stejné skupině, která kontroluje obsah i cestu k divákovi. ${S("CzechCrunch","https://cc.cz/desitky-miliard-v-kapse-a-konec-v-ppf-renata-kellnerova-s-dcerami-koupily-podil-petra-kellnera-juniora/")}`,
+    `<strong>Kauza Markíza.</strong> Moderátor Kovačič byl v roce 2024 propuštěn poté, co v přímém přenosu mluvil o pokusech o cenzuru; další novináři odcházeli i v roce 2025. PPF zásahy popírá. ${S("ČT24","https://ct24.ceskatelevize.cz/clanek/svet/po-nastupu-ceskeho-vedeni-dochazelo-k-sikane-tvrdi-koncici-reporterka-markizy-361785")}`,
+    `<strong>Dědictví Ruska a Číny.</strong> Home Credit přes PR agenturu skrytě sponzoroval projekt vstřícný k Číně; od roku 2022 skupina z Ruska i většiny Asie odešla. ${S("Seznam Zprávy","https://www.seznamzpravy.cz/clanek/komentar-nemile-zaskoceny-kellner-proti-ppf-se-obraci-jeji-vlastni-lobbing-84713")}`]}
+ ]},
+ {name:"FTV Prima", owners:[
+  {who:"Ivan Zach", ini:"IZ", alert:true, share:"99 %", hold:"GES Group", biz:"vzduchotechnika ZVVZ, Koh-i-noor Mladá Vožice, reality, zemědělství",
+   profile:"https://forbes.cz/lists/nc26/ivan-zach/",
+   media:[["Prima",1,"https://www.iprima.cz","13 TV stanic"],["CNN Prima News",1,"https://cnn.iprima.cz","licence CNN"]],
+   points:[
+    `<strong>Neviditelný majitel.</strong> Rozhovory nedává, Forbes ho popisuje jako magnáta, který se vyhýbá médiím. ${S("Forbes","https://forbes.cz/lists/nc25/ivan-zach/")}`,
+    `<strong>Sporné zpravodajství 2015.</strong> Nahrávka zveřejněná HlídacímPsem ukazovala pokyn k protiuprchlickému postoji; RRTV našla sporné momenty, řízení nezahájila. ${S("E15","https://www.e15.cz/byznys/ostatni/medialni-obchod-roku-miliardar-zach-ovladl-televizi-prima-1328046")}`,
+    `<strong>Průmysl a nově zemědělství.</strong> GES v roce 2025 koupila zemědělský podnik s 2 800 ha; dotace jsou téma, o kterém Prima informuje. ${S("MUP 2026","https://mup.rozanek.cz/prezentace_vlastnici_medii_2026.pdf")}`]}
+ ]},
+ {name:"Empresa Media", owners:[
+  {who:"Jan Čermák", ini:"JČ", alert:false, share:"100 %", hold:"S-24 holding", biz:"obchod s pohledávkami, nemovitosti, hotely",
+   profile:"https://www.newstream.cz/stitek/jan-cermak", konkurz:true,
+   media:[["Týden",3,"","týdeník"],["Sedmička",3,"",""],["TV Barrandov",3,"","provozovatel v konkurzu od 4/2026"]],
+   points:[
+    `<strong>Obchodník s dluhy.</strong> Empresu převzal přes Soukupovy dluhy; televizi chtěl „vyčistit a prodat“, firmy kupuje hlavně kvůli pozemkům. ${S("Newstream","https://www.newstream.cz/reality/televizi-barrandov-vycistime-pripravime-a-nasledne-prodame-rika-jan-cermak")}`,
+    `<strong>Dluhy 1,9 mld. Kč.</strong> Reorganizace selhala, soud ukončil provoz a správce prodává známky, doménu a archiv. ${S("Lupa.cz","https://www.lupa.cz/aktuality/tv-barrandov-se-chysta-na-rozprodani-majetku-vysilani-ma-pokracovat/")}`,
+    `<strong>Sporné vazby.</strong> V roce 2025 řešil exekuci kvůli dluhu asi 1 mil. eur ruskému podnikateli; spor urovnal. ${S("Seznam Zprávy","https://www.seznamzpravy.cz/clanek/ekonomika-firmy-majitel-tv-barrandov-urovnal-spory-s-rusy-kvuli-dluhu-z-marianskych-lazni-282736")}`]}
+ ]},
+ {name:"Naše Média + SPM Media", owners:[
+  {who:"Marek Španěl", ini:"MŠ", alert:false, share:"PL + SPM", hold:"Naše Média (přes 70 % PL se S. Pavlíčkem), SPM Media", biz:"herní studio Bohemia Interactive (Arma, DayZ)",
+   profile:"https://forbes.cz/lists/nc25/marek-spanel/",
+   media:[["Parlamentní listy",4,"https://www.parlamentnilisty.cz","rating NFNZ B–"],["Echo24",4,"https://echo24.cz",""],["Týdeník Echo",4,"",""],["Hrot",4,"",""],["Radio Prostor",4,"",""]],
+   points:[
+    `<strong>Konzervativní mediální dům.</strong> Od roku 2022 skoupil Echo, Hrot a rádio a postavil skupinu s pravicově konzervativním profilem. ${S("CzechCrunch","https://cc.cz/sef-bohemia-interactive-marek-spanel-se-pousti-do-noveho-dobrodruzstvi-kupuje-vydavatelstvi-echo-media/")}`,
+    `<strong>Kupec sporného webu.</strong> Parlamentní listy čelí kritice za proruské narativy a dezinformace; nákup zdůvodnil pluralitou názorů. ${S("Seznam Zprávy","https://www.seznamzpravy.cz/clanek/ekonomika-firmy-parlamentni-listy-maji-nove-majitele-pluralita-nazoru-je-dulezita-rikaji-232117")}`,
+    `<strong>Kritik „boje s dezinformacemi“.</strong> Tvrdí, že ho ovládla hrstka soukromníků s vlastními zájmy. ${S("Forbes","https://forbes.cz/mazat-silene-nazory-neni-reseni-jak-miliardar-spanel-uvazuje-o-svych-mediich/")}`]},
+  {who:"Slavomír Pavlíček", ini:"SP", alert:false, share:"PL + SPM", hold:"Naše Média (se M. Španělem), SPM Media", biz:"Bohemia Interactive, reality (palác Křižík), zemědělství",
+   profile:"https://www.mediaguru.cz/slavomir-pavlicek",
+   media:[["Parlamentní listy",4,"https://www.parlamentnilisty.cz",""],["Echo24",4,"https://echo24.cz",""],["Týdeník Echo",4,"",""],["Hrot",4,"",""],["Radio Prostor",4,"",""]],
+   points:[
+    `<strong>Finanční polovina dvojice.</strong> Spoluzakladatel Bohemia Interactive, ve skupině SPM řídí finance. ${S("Forbes","https://forbes.cz/mazat-silene-nazory-neni-reseni-jak-miliardar-spanel-uvazuje-o-svych-mediich/")}`,
+    `<strong>Politické sympatie.</strong> Podle přehledu MUP dříve podporoval politiky SPD a Svobodných. ${S("MUP 2026","https://mup.rozanek.cz/prezentace_vlastnici_medii_2026.pdf")}`,
+    `<strong>Média jako menší část byznysu.</strong> SPM investuje do nemovitostí, zemědělství a e-shopů. ${S("MediaGuru","https://www.mediaguru.cz/slavomir-pavlicek")}`]}
+ ]},
+ {name:"Menší a nezávislá média", owners:[
+  {who:"Nadace Independent Press", ini:"IP", alert:false, share:"57 % / 25 %", hold:"N media (56,6 %), Respekt Media (25 %)", biz:"dárci: M. Hájek (Livesport), M. Vohánka (Eurowag), L. Winkler (RSJ)",
+   profile:"https://www.lupa.cz/aktuality/vydavatel-ceskeho-deniku-n-se-loni-poprve-dostal-do-zisku-stale-ma-kumulovanou-ztratu/",
+   media:[["Deník N",2,"https://denikn.cz","zisk 4,4 mil. Kč (2025)"],["Respekt",2,"https://www.respekt.cz","dalších 75 %: Denník N SK, Aegis, redaktoři"]],
+   points:[
+    `<strong>Dva liberální tituly.</strong> Respekt vlastní po čtvrtinách nadace, slovenský Denník N, Aegis Holding a asi 30 redaktorů. ${S("MediaGuru","https://www.mediaguru.cz/economia-prodava-respekt-novym-vlastnikem-je-respekt-media")}`,
+    `<strong>Podnikatelé za nadací.</strong> Zakladatelé se v roce 2021 vzdali osobních podílů ve prospěch nadace. ${S("MediaGuru","https://www.mediaguru.cz/zakladatele-deniku-n-vlozili-sve-podily-do-nadace")}`,
+    `<strong>Na předplatném.</strong> Deník N měl v roce 2025 tržby 96 mil. Kč a zisk 4,4 mil. Kč. ${S("Lupa.cz","https://www.lupa.cz/aktuality/cesky-denik-n-se-dostal-do-zisku-v-radech-milionu-pomahaji-mu-kauzy-a-dramaticke-deni/")}`]},
+  {who:"Drtinová, Veselovský a spol.", ini:"DV", alert:false, share:"100 %", hold:"DVTV", biz:"D. Drtinová, M. Veselovský, J. Rozkošný, J. Ouředník",
+   profile:"https://www.mediaguru.cz/dvtv-jde-na-slovensko-pobocku-zalozil-byvaly-moderator-rtvs",
+   media:[["DVTV",0,"https://dvtv.cz","předplatné"]],
+   points:[
+    `<strong>Novináři jako majitelé.</strong> DVTV vlastní její tváře a manažeři, financuje se z předplatného. ${S("MediaGuru","https://www.mediaguru.cz/konec-dvtv-extra-v-bezplatnem-dvb-t2-vysilani")}`,
+    `<strong>Konec v pozemním vysílání.</strong> Kanál DVTV Extra skončil v DVB-T2 ke konci roku 2025. ${S("MediaGuru","https://www.mediaguru.cz/konec-dvtv-extra-v-bezplatnem-dvb-t2-vysilani")}`,
+    `<strong>Dříve s Economií.</strong> Od roku 2014 spolupracovala s Aktuálně.cz, dnes má vlastní web i slovenskou pobočku. ${S("MediaGuru","https://www.mediaguru.cz/dvtv-jde-na-slovensko-pobocku-zalozil-byvaly-moderator-rtvs")}`]},
+  {who:"Robert Čásenský", ini:"RČ", alert:false, share:"většina", hold:"Reportér magazín (Seznam.cz 1/3)", biz:"od 1/2025 šéfredaktor Seznam Zpráv",
+   profile:"https://www.lupa.cz/aktuality/robert-casensky-se-stal-sefredaktorem-webu-seznam-zpravy/",
+   media:[["Reportér",3,"https://reportermagazin.cz","měsíčník a web"]],
+   points:[
+    `<strong>Majitel i šéfredaktor jinde.</strong> Reportér založil v roce 2014; od ledna 2025 vede Seznam Zprávy. ${S("Lupa.cz","https://www.lupa.cz/aktuality/robert-casensky-se-stal-sefredaktorem-webu-seznam-zpravy/")}`,
+    `<strong>Seznam jako spolumajitel.</strong> Seznam.cz koupil třetinu vydavatelství. ${S("MediaGuru","https://www.mediaguru.cz/robert-casensky-povede-seznam-zpravy-seznam-vstupuje-do-magazinu-reporter")}`,
+    `<strong>Nadační fond Reportér.</strong> Přispívá na reportážní cesty a speciální texty. ${S("Lupa.cz","https://www.lupa.cz/clanky/robert-casensky-reporter-nechtel-jsem-delat-noviny-pro-zadneho-oligarchu/")}`]},
+  {who:"Ústav nezávislé žurnalistiky", ini:"ÚNŽ", alert:false, share:"100 %", hold:"zapsaný ústav", biz:"dary, granty, crowdfunding",
+   profile:"https://hlidacipes.org/o-nas-2/english-summary/",
+   media:[["HlídacíPes.org",0,"https://hlidacipes.org","investigativa"]],
+   points:[
+    `<strong>Neziskový provozovatel.</strong> Vede ho Ondřej Neumann, financuje se z darů a grantů. ${S("Výroční zpráva","https://hlidacipes.org/src/uploads/2025/08/Vyrocni-zprava-2024-def-1.pdf")}`,
+    `<strong>Propojení s Economií.</strong> Předsedkyní správní rady je Lenka Černá, ředitelka Bakalovy Economie. ${S("Forbes","https://forbes.cz/lists/zeny23/lenka-cerna/")}`,
+    `<strong>Start z průmyslových peněz.</strong> Rozjezd podpořil Nadační fond českých průmyslníků, později Pavel Baudiš. ${S("MediaGuru","https://www.mediaguru.cz/baudis-podporil-web-hlidacipes-org-ten-organizuje-sbirku")}`]},
+  {who:"Jakub Unger", ini:"JU", alert:false, share:"neověřeno", hold:"Dead Line Media", biz:"do 2024 šéfredaktor Seznam Zpráv", unverified:true,
+   profile:"https://www.mediaguru.cz/clanky/2015/03/medialni-firma-jakuba-ungera-prijde-se-ctyrmi-weby",
+   media:[["Neovlivní.cz",1,"https://neovlivni.cz","šéfredaktorka Sabina Slonková"]],
+   points:[
+    `<strong>Původní vydavatel.</strong> Web vydávala firma Dead Line Media Jakuba Ungera. ${S("MediaGuru","https://www.mediaguru.cz/clanky/2015/03/medialni-firma-jakuba-ungera-prijde-se-ctyrmi-weby")}`,
+    `<strong>Unger mezitím u konkurence.</strong> V letech 2016–2024 budoval a vedl Seznam Zprávy. ${S("MediaGuru","https://www.mediaguru.cz/jakub-unger-konci-v-cele-webu-seznam-zpravy-i-v-dalsich-funkcich")}`,
+    `<strong>Ověřit vlastnictví.</strong> Novější údaj o vlastníkovi z let 2025–2026 jsem nenašel; doporučuji Evidenci skutečných majitelů.`]}
+ ]},
+ {name:"Veřejná služba", owners:[
+  {who:"Parlament ČR a rady", ini:"ČR", alert:false, share:"veřejné", hold:"Rada ČT, Rada ČRo, Rada ČTK", biz:"dnes poplatky, navrženo financování ze státního rozpočtu",
+   profile:"https://www.mediaguru.cz/vlada-schvalila-zruseni-poplatku-pro-ct-a-cro-z-rozpoctu-jim-da-o-1-4-mld-mene",
+   media:[["Česká televize",2,"https://www.ceskatelevize.cz",""],["Český rozhlas",2,"https://www.rozhlas.cz",""],["ČTK",2,"https://www.ceskenoviny.cz",""]],
+   points:[
+    `<strong>Konec poplatků.</strong> Vláda 15. 6. 2026 schválila financování ze státního rozpočtu, o 1,4 mld. Kč méně; Sněmovna zákon poslala do 2. čtení, to má být kolem 15. 1. 2027. ${S("ČTK","https://www.ceskenoviny.cz/zpravy/2896300")}`,
+    `<strong>Spor o nezávislost.</strong> Opozice, Senát a zaměstnanci varují, že rozpočet dá vládě páku na obsah; sloučení ČT a ČRo se nechystá. ${S("Blesk","https://www.blesk.cz/clanek/837316")}`,
+    `<strong>Kdo je řídí.</strong> Ředitele volí rady, rady volí parlament; koalice chce kontrolu NKÚ. ${S("ČTK","https://www.ceskenoviny.cz/zpravy/2815795")}`]}
+ ]}
+];
+const groupsEn = [
+ {name:"Mafra a Londa", owners:[
+  {who:"Karel Pražák", ini:"KP", alert:false, share:"50%", hold:"Kaprain", biz:"chemicals, real-estate development, sport (HC Sparta, FK Pardubice)",
+   profile:"https://forbes.cz/lists/nc25/karel-prazak/",
+   media:[["MF Dnes",0,"https://www.idnes.cz","national daily"],["iDNES.cz",0,"https://www.idnes.cz","news site"],["Lidovky.cz",0,"https://www.lidovky.cz","print Lidové noviny ended 8/2025"],["Metro",0,"https://www.metro.cz","free daily"],["Rádio Impuls",0,"https://www.impuls.cz","Londa"]],
+   points:[
+    `<strong>Bought Mafra from Babiš.</strong> Kaprain took over Mafra and Londa from Agrofert on 1 Feb 2024, together with the chemical company Synthesia. ${S("ČT24","https://ct24.ceskatelevize.cz/clanek/ekonomika/mafru-a-synthesii-koupila-od-agrofertu-skupina-kaprain-podnikatele-prazaka-2490")}`,
+    `<strong>Made his name at PPF, now in dispute with it.</strong> He was Petr Kellner's crisis manager; the purchase was financed by a loan from Penta, owner of rival VLM. ${S("Seznam Zprávy","https://www.seznamzpravy.cz/clanek/ekonomika-firmy-skupina-kaprain-miliardare-prazaka-se-chce-zbavit-uveru-od-penty-277130")}`,
+    `<strong>Businesses Mafra reports on.</strong> Chemicals (Spolchemie, Synthesia), Prague development and sport; a wide network of ties from PPF to more controversial businessmen. ${S("Seznam Zprávy","https://www.seznamzpravy.cz/clanek/ekonomika-firmy-po-mafre-saha-karel-prazak-partak-miliardaru-i-postav-s-problemy-236105")}`]},
+  {who:"Pavel Tykač", ini:"PT", alert:false, share:"50%", hold:"Tymeprax → Temaen Foundation", biz:"coal and energy (Sev.en), SK Slavia Praha",
+   profile:"https://en.wikipedia.org/wiki/Pavel_Tyka%C4%8D",
+   media:[["MF Dnes",0,"https://www.idnes.cz","since 29 May 2026"],["iDNES.cz",0,"https://www.idnes.cz",""],["Lidovky.cz",0,"https://www.lidovky.cz",""],["Metro",0,"https://www.metro.cz",""],["Rádio Impuls",0,"https://www.impuls.cz",""]],
+   points:[
+    `<strong>A coal baron in the media.</strong> Sev.en owns mines in the Most region and the Počerady and Chvaletice power plants, which it plans to close around 2026/2027. ${S("ČT24","https://ct24.ceskatelevize.cz/tema/pavel-tykac-4872")}`,
+    `<strong>The Motoinvest past.</strong> He faced charges in 2006–2008 over the asset stripping of CS fondy; the prosecution was dropped and others were convicted. He denies any part in it. ${S("E15","https://www.e15.cz/domaci/stihani-tykace-kvuli-cs-fondum-je-zastaveno-svedci-odmitli-vypovidat-1258334")}`,
+    `<strong>Family and Slavia on the boards.</strong> His daughter joined Mafra's supervisory board and a Slavia executive joined the management board. ${S("MediaGuru","https://www.mediaguru.cz/tykac-oficialne-prebira-podil-v-mafre-dcera-usedne-v-dozorci-rade")}`]}
+ ]},
+ {name:"Czech Media Invest", owners:[
+  {who:"Daniel Křetínský", ini:"DK", alert:true, share:"50%", hold:"Czech Media Invest", biz:"energy (EPH), AC Sparta, stake in West Ham, France (Editis, Elle)",
+   profile:"https://en.wikipedia.org/wiki/Daniel_K%C5%99et%C3%ADnsk%C3%BD",
+   media:[["Blesk",1,"https://www.blesk.cz","best-selling daily"],["Aha!",1,"https://www.ahaonline.cz",""],["Sport",1,"https://isport.blesk.cz","also covers Sparta"],["E15",1,"https://www.e15.cz","business daily"],["Reflex",1,"https://www.reflex.cz",""],["Evropa 2",1,"https://www.evropa2.cz","Active Radio"],["Frekvence 1",1,"https://www.frekvence1.cz","Active Radio"]],
+   points:[
+    `<strong>An energy magnate with the biggest tabloid.</strong> Majority owner of EPH (70+ companies in 9 countries), Sparta and a stake in West Ham. ${S("MUP 2026","https://mup.rozanek.cz/prezentace_vlastnici_medii_2026.pdf")}`,
+    `<strong>A documented conflict of interest.</strong> In 2023 Blesk sharply criticised the state's purchase of NET4GAS without saying that EPH had also wanted the company; CZ IPI pointed this out. EPH denies interfering. ${S("MediaGuru","https://www.mediaguru.cz/cz-ipi-pise-danielu-kretinskemu-kvuli-stretu-zajmu")}`,
+    `<strong>Media are not the main business.</strong> Most of CMI's revenue comes from abroad; in 2022 CMI posted a loss of CZK 1.3 bn. ${S("MediaGuru","https://www.mediaguru.cz/obrat-czech-media-invest-tvori-vetsinove-zahranicni-media")}`]},
+  {who:"Patrik Tkáč", ini:"PT", alert:true, share:"40%", hold:"J&T Capital Partners", biz:"J&T financial group, 44% of EPH, 44% of AC Sparta",
+   profile:"https://www.cncenter.cz/en/about",
+   media:[["Blesk",1,"https://www.blesk.cz",""],["Aha!",1,"https://www.ahaonline.cz",""],["Sport",1,"https://isport.blesk.cz",""],["E15",1,"https://www.e15.cz",""],["Reflex",1,"https://www.reflex.cz",""],["Evropa 2",1,"https://www.evropa2.cz",""],["Frekvence 1",1,"https://www.frekvence1.cz",""]],
+   points:[
+    `<strong>Co-founder of J&amp;T.</strong> He founded the group in 1994; according to the Slovak Spectator he had easier access to capital because his father ran the state bank IRB. ${S("Slovak Spectator","https://spectator.sme.sk/business/c/jt-from-broker-to-banker")}`,
+    `<strong>A silent co-owner.</strong> He holds the stake through J&amp;T Capital Partners and rarely speaks publicly about the media. ${S("MediaGuru","https://www.mediaguru.cz/tkacuv-holding-j-t-capital-partners-prevezme-jeho-podil-v-cmi")}`,
+    `<strong>Same interests as Křetínský.</strong> His structure owns 44% of EPH and J&amp;T holds 44% of Sparta. ${S("J&T","https://www.jtfg.com/en/press-releases/j3idlwdbgf-patrik-tkac-co-founder-of-j-t-finance-group-se-consolidates-joint-investments-with-daniel-kretinsky-into-j-t-capital-partners")}`]}
+ ]},
+ {name:"Penta / Vltava Labe Media", owners:[
+  {who:"Marek Dospiva", ini:"MD", alert:true, share:"approx. 44%", hold:"Penta Investments", biz:"Dr. Max pharmacies, Penta Hospitals, Fortuna, development, Penta Bank",
+   profile:"https://forbes.cz/lists/cesti-dolarovi-miliardari-2024/marek-dospiva/",
+   media:[["Deník",2,"https://www.denik.cz","regional dailies"],["Deník.cz",2,"https://www.denik.cz",""],["Květy",2,"https://www.kvety.cz",""],["Vlasta",2,"",""],["Story",2,"",""],["PNS",2,"","press distribution"]],
+   points:[
+    `<strong>Media as a “nuclear briefcase”.</strong> Before buying Deník he said owning media protects Penta from “irrational attacks”. ${S("MediaGuru","https://www.mediaguru.cz/clanky/2015/04/hn-dospiva-potvrdil-zajem-o-media-v-cesku")}`,
+    `<strong>Healthcare, betting, construction.</strong> Dr. Max, hospitals, Fortuna and development depend on regulation and permits that the regional Deník papers write about. ${S("Forbes","https://forbes.cz/lists/cesti-dolarovi-miliardari-2024/marek-dospiva/")}`,
+    `<strong>Lawsuits against rivals.</strong> In Slovakia, after entering the media market, Penta sued rival newsrooms including Denník N. ${S("MediaGuru","https://www.mediaguru.cz/penta-po-vstupu-do-medii-podala-zaloby-na-konkurenci")}`]},
+  {who:"Jaroslav Haščák", ini:"JH", alert:true, share:"approx. 44%", hold:"Penta Investments (trust fund for his wife and sons)", biz:"Penta co-founder, back in top management since 10/2024",
+   profile:"https://en.wikipedia.org/wiki/Jaroslav_Ha%C5%A1%C4%8D%C3%A1k",
+   media:[["Deník",2,"https://www.denik.cz",""],["Deník.cz",2,"https://www.denik.cz",""],["Květy",2,"https://www.kvety.cz",""],["Vlasta",2,"",""],["Story",2,"",""]],
+   points:[
+    `<strong>A central figure of the Gorilla case.</strong> The file describes his meetings with politicians in 2005–2006; Penta denies bribery and the recordings' authenticity was never confirmed. ${S("E15","https://www.e15.cz/zahranicni/slovenska-prokuratura-zrusila-stihani-spoluzakladatele-penty-hascaka-v-kauze-gorila-1418460")}`,
+    `<strong>Charged, never convicted.</strong> Charged in 2020 and 2022 and held in custody for a month; both prosecutions were annulled and the state apologised. ${S("Penta","https://www.pentainvestments.com/en/jaroslav-hascak-returns-to-pentas-top-management/")}`,
+    `<strong>The stake with the family, the power with him.</strong> He moved his stake into a trust fund for his wife and sons but has been back in top management since October 2024. ${S("ČT24","https://ct24.ceskatelevize.cz/clanek/ekonomika/penta-meni-vlastnickou-strukturu-hascak-prevadi-podil-na-rodinu-33781")}`]}
+ ]},
+ {name:"Economia", owners:[
+  {who:"Zdeněk Bakala", ini:"ZB", alert:false, share:"100%", hold:"Economia", biz:"real estate, formerly OKD; funds the Václav Havel Library",
+   profile:"https://en.wikipedia.org/wiki/Zden%C4%9Bk_Bakala",
+   media:[["Hospodářské noviny",3,"https://hn.cz","daily and HN.cz"],["Aktuálně.cz",3,"https://www.aktualne.cz",""],["Ekonom",3,"https://ekonom.cz","weekly"],["Centrum.cz",3,"https://www.centrum.cz",""]],
+   points:[
+    `<strong>A fortune from OKD.</strong> He promised to sell 44,000 miners' flats to their tenants but sold them to an investor instead; a court ruled the promise was not binding. OKD went insolvent in 2016. ${S("Seznam Zprávy","https://www.seznamzpravy.cz/clanek/soud-rozhodl-bakaluv-slib-prodat-byty-najemnikum-nemel-pravni-vahu-116350")}`,
+    `<strong>Subsidised media.</strong> He subsidised Economia for years as “a matter of the heart”; in 2025 turnover was CZK 570 m with a loss of just under CZK 3 m. ${S("Echo24","https://echo24.cz/a/SRmJ6/bakala-dotuje-ztratovou-economii-desitkami-milionu-je-to-srdecni-zalezitost-rika")}`,
+    `<strong>An independence safeguard.</strong> At his initiative an Editorial Independence Board was set up (2019); no other private outlet has one. ${S("MediaGuru","https://www.mediaguru.cz/clanky/2019/09/economia-ustavila-radu-pro-redakcni-nezavislost/")}`]}
+ ]},
+ {name:"Seznam.cz", owners:[
+  {who:"Ivo Lukačovič", ini:"IL", alert:false, share:"100%", hold:"Seznam.cz (holding in Cyprus)", biz:"search engine, Mapy.cz, Sreality, advertising",
+   profile:"https://en.wikipedia.org/wiki/Ivo_Luka%C4%8Dovi%C4%8D",
+   media:[["Seznam Zprávy",4,"https://www.seznamzpravy.cz",""],["Novinky.cz",4,"https://www.novinky.cz",""],["Právo",4,"","97.56% of publisher Borgis"],["Televize Seznam",4,"",""],["Reportér",4,"https://reportermagazin.cz","one-third stake"]],
+   points:[
+    `<strong>The gateway to news in one pair of hands.</strong> The two strongest news sites, a daily and a TV channel, plus the homepage and search engine that decide what people see. ${S("MUP 2026","https://mup.rozanek.cz/prezentace_vlastnici_medii_2026.pdf")}`,
+    `<strong>Feud with the prime minister.</strong> Babiš calls Seznam Zprávy and Novinky “activist” and accuses Lukačovič of tax avoidance; Seznam denies it and sued Babiš in March 2026. ${S("Lupa.cz","https://www.lupa.cz/aktuality/seznam-cz-zaluje-premiera-babise-kvuli-opakovanym-vyrokum-o-kraceni-dani/")}`,
+    `<strong>Outspoken views.</strong> He personally gave CZK 100 m for weapons for Ukraine (2022) and another CZK 100 m (2025). The newsroom says he does not interfere with content. ${S("Lupa.cz","https://www.lupa.cz/aktuality/ivo-lukacovic-je-tajemny-darce-ktery-poslal-100-milionu-na-podporu-ukrajiny/")}`]}
+ ]},
+ {name:"PPF / CME", owners:[
+  {who:"Renáta Kellnerová", ini:"RK", alert:true, share:"100%", hold:"PPF Group (with daughters Anna, Lara and Marie Isabella)", biz:"telecoms (O2), Škoda Transportation, finance, real estate",
+   profile:"https://www.ppf.eu/en/press-release/renata-kellnerova-and-her-daughters-raise-their-ppf-group-shareholding-to-100",
+   media:[["TV Nova",0,"https://tn.nova.cz","most-watched commercial TV"],["Oneplay",0,"https://www.oneplay.cz","Voyo + O2 TV"],["Nova Sport",0,"",""],["Markíza",0,"","Slovakia"]],
+   points:[
+    `<strong>Broadcaster and network in one.</strong> Nova and the operator O2 belong to the same group, which controls both the content and the route to the viewer. ${S("CzechCrunch","https://cc.cz/desitky-miliard-v-kapse-a-konec-v-ppf-renata-kellnerova-s-dcerami-koupily-podil-petra-kellnera-juniora/")}`,
+    `<strong>The Markíza affair.</strong> Anchor Kovačič was fired in 2024 after speaking on air about attempts at censorship; more journalists left in 2025. PPF denies interfering. ${S("ČT24","https://ct24.ceskatelevize.cz/clanek/svet/po-nastupu-ceskeho-vedeni-dochazelo-k-sikane-tvrdi-koncici-reporterka-markizy-361785")}`,
+    `<strong>A Russia and China legacy.</strong> Home Credit covertly sponsored a China-friendly project through a PR agency; since 2022 the group has left Russia and most of Asia. ${S("Seznam Zprávy","https://www.seznamzpravy.cz/clanek/komentar-nemile-zaskoceny-kellner-proti-ppf-se-obraci-jeji-vlastni-lobbing-84713")}`]}
+ ]},
+ {name:"FTV Prima", owners:[
+  {who:"Ivan Zach", ini:"IZ", alert:true, share:"99%", hold:"GES Group", biz:"ZVVZ air-handling, Koh-i-noor Mladá Vožice, real estate, agriculture",
+   profile:"https://forbes.cz/lists/nc26/ivan-zach/",
+   media:[["Prima",1,"https://www.iprima.cz","13 TV channels"],["CNN Prima News",1,"https://cnn.iprima.cz","CNN licence"]],
+   points:[
+    `<strong>An invisible owner.</strong> He gives no interviews; Forbes describes him as a tycoon who avoids the media. ${S("Forbes","https://forbes.cz/lists/nc25/ivan-zach/")}`,
+    `<strong>Contested news coverage in 2015.</strong> A recording published by HlídacíPes showed an instruction to take an anti-refugee line; the broadcasting council found questionable moments but opened no proceedings. ${S("E15","https://www.e15.cz/byznys/ostatni/medialni-obchod-roku-miliardar-zach-ovladl-televizi-prima-1328046")}`,
+    `<strong>Industry and now farming.</strong> In 2025 GES bought a farming company with 2,800 ha; subsidies are a topic Prima reports on. ${S("MUP 2026","https://mup.rozanek.cz/prezentace_vlastnici_medii_2026.pdf")}`]}
+ ]},
+ {name:"Empresa Media", owners:[
+  {who:"Jan Čermák", ini:"JČ", alert:false, share:"100%", hold:"S-24 holding", biz:"debt trading, real estate, hotels",
+   profile:"https://www.newstream.cz/stitek/jan-cermak", konkurz:true,
+   media:[["Týden",3,"","weekly"],["Sedmička",3,"",""],["TV Barrandov",3,"","operator insolvent since 4/2026"]],
+   points:[
+    `<strong>A debt trader.</strong> He took over Empresa through Soukup's debts; he wanted to “clean up and sell” the TV station and buys companies mainly for their land. ${S("Newstream","https://www.newstream.cz/reality/televizi-barrandov-vycistime-pripravime-a-nasledne-prodame-rika-jan-cermak")}`,
+    `<strong>Debts of CZK 1.9 bn.</strong> The reorganisation failed, the court ended operations and the administrator is selling the trademarks, domain and archive. ${S("Lupa.cz","https://www.lupa.cz/aktuality/tv-barrandov-se-chysta-na-rozprodani-majetku-vysilani-ma-pokracovat/")}`,
+    `<strong>Questionable ties.</strong> In 2025 he faced enforcement over a debt of about €1 m to a Russian businessman; the dispute was settled. ${S("Seznam Zprávy","https://www.seznamzpravy.cz/clanek/ekonomika-firmy-majitel-tv-barrandov-urovnal-spory-s-rusy-kvuli-dluhu-z-marianskych-lazni-282736")}`]}
+ ]},
+ {name:"Naše Média + SPM Media", owners:[
+  {who:"Marek Španěl", ini:"MŠ", alert:false, share:"PL + SPM", hold:"Naše Média (over 70% of PL with S. Pavlíček), SPM Media", biz:"game studio Bohemia Interactive (Arma, DayZ)",
+   profile:"https://forbes.cz/lists/nc25/marek-spanel/",
+   media:[["Parlamentní listy",4,"https://www.parlamentnilisty.cz","NFNZ rating B–"],["Echo24",4,"https://echo24.cz",""],["Týdeník Echo",4,"",""],["Hrot",4,"",""],["Radio Prostor",4,"",""]],
+   points:[
+    `<strong>A conservative media house.</strong> Since 2022 he has bought Echo, Hrot and a radio station, building a group with a right-wing conservative profile. ${S("CzechCrunch","https://cc.cz/sef-bohemia-interactive-marek-spanel-se-pousti-do-noveho-dobrodruzstvi-kupuje-vydavatelstvi-echo-media/")}`,
+    `<strong>Buyer of a controversial site.</strong> Parlamentní listy is criticised for pro-Russian narratives and disinformation; he justified the purchase by plurality of opinion. ${S("Seznam Zprávy","https://www.seznamzpravy.cz/clanek/ekonomika-firmy-parlamentni-listy-maji-nove-majitele-pluralita-nazoru-je-dulezita-rikaji-232117")}`,
+    `<strong>A critic of the “fight against disinformation”.</strong> He argues it has been captured by a handful of private actors with their own interests. ${S("Forbes","https://forbes.cz/mazat-silene-nazory-neni-reseni-jak-miliardar-spanel-uvazuje-o-svych-mediich/")}`]},
+  {who:"Slavomír Pavlíček", ini:"SP", alert:false, share:"PL + SPM", hold:"Naše Média (with M. Španěl), SPM Media", biz:"Bohemia Interactive, real estate (Křižík Palace), agriculture",
+   profile:"https://www.mediaguru.cz/slavomir-pavlicek",
+   media:[["Parlamentní listy",4,"https://www.parlamentnilisty.cz",""],["Echo24",4,"https://echo24.cz",""],["Týdeník Echo",4,"",""],["Hrot",4,"",""],["Radio Prostor",4,"",""]],
+   points:[
+    `<strong>The financial half of the duo.</strong> Co-founder of Bohemia Interactive; he runs finance in the SPM group. ${S("Forbes","https://forbes.cz/mazat-silene-nazory-neni-reseni-jak-miliardar-spanel-uvazuje-o-svych-mediich/")}`,
+    `<strong>Political sympathies.</strong> According to the MUP overview, he previously supported politicians from SPD and the Freedom Party (Svobodní). ${S("MUP 2026","https://mup.rozanek.cz/prezentace_vlastnici_medii_2026.pdf")}`,
+    `<strong>Media as a smaller part of the business.</strong> SPM invests in real estate, agriculture and e-shops. ${S("MediaGuru","https://www.mediaguru.cz/slavomir-pavlicek")}`]}
+ ]},
+ {name:"Menší a nezávislá média", owners:[
+  {who:"Independent Press Foundation", ini:"IP", alert:false, share:"57% / 25%", hold:"N media (56.6%), Respekt Media (25%)", biz:"donors: M. Hájek (Livesport), M. Vohánka (Eurowag), L. Winkler (RSJ)",
+   profile:"https://www.lupa.cz/aktuality/vydavatel-ceskeho-deniku-n-se-loni-poprve-dostal-do-zisku-stale-ma-kumulovanou-ztratu/",
+   media:[["Deník N",2,"https://denikn.cz","profit CZK 4.4 m (2025)"],["Respekt",2,"https://www.respekt.cz","other 75%: Denník N SK, Aegis, journalists"]],
+   points:[
+    `<strong>Two liberal titles.</strong> Respekt is owned in quarters by the foundation, Slovak Denník N, Aegis Holding and about 30 journalists. ${S("MediaGuru","https://www.mediaguru.cz/economia-prodava-respekt-novym-vlastnikem-je-respekt-media")}`,
+    `<strong>Entrepreneurs behind the foundation.</strong> In 2021 the founders gave up their personal stakes in favour of the foundation. ${S("MediaGuru","https://www.mediaguru.cz/zakladatele-deniku-n-vlozili-sve-podily-do-nadace")}`,
+    `<strong>Funded by subscriptions.</strong> In 2025 Deník N had revenue of CZK 96 m and a profit of CZK 4.4 m. ${S("Lupa.cz","https://www.lupa.cz/aktuality/cesky-denik-n-se-dostal-do-zisku-v-radech-milionu-pomahaji-mu-kauzy-a-dramaticke-deni/")}`]},
+  {who:"Drtinová, Veselovský et al.", ini:"DV", alert:false, share:"100%", hold:"DVTV", biz:"D. Drtinová, M. Veselovský, J. Rozkošný, J. Ouředník",
+   profile:"https://www.mediaguru.cz/dvtv-jde-na-slovensko-pobocku-zalozil-byvaly-moderator-rtvs",
+   media:[["DVTV",0,"https://dvtv.cz","subscription"]],
+   points:[
+    `<strong>Journalists as owners.</strong> DVTV is owned by its presenters and managers and funded by subscriptions. ${S("MediaGuru","https://www.mediaguru.cz/konec-dvtv-extra-v-bezplatnem-dvb-t2-vysilani")}`,
+    `<strong>Off terrestrial TV.</strong> The DVTV Extra channel left DVB-T2 at the end of 2025. ${S("MediaGuru","https://www.mediaguru.cz/konec-dvtv-extra-v-bezplatnem-dvb-t2-vysilani")}`,
+    `<strong>Formerly with Economia.</strong> From 2014 it worked with Aktuálně.cz; today it has its own site and a Slovak branch. ${S("MediaGuru","https://www.mediaguru.cz/dvtv-jde-na-slovensko-pobocku-zalozil-byvaly-moderator-rtvs")}`]},
+  {who:"Robert Čásenský", ini:"RČ", alert:false, share:"majority", hold:"Reportér magazín (Seznam.cz 1/3)", biz:"editor-in-chief of Seznam Zprávy since 1/2025",
+   profile:"https://www.lupa.cz/aktuality/robert-casensky-se-stal-sefredaktorem-webu-seznam-zpravy/",
+   media:[["Reportér",3,"https://reportermagazin.cz","monthly and website"]],
+   points:[
+    `<strong>Owner here, editor-in-chief elsewhere.</strong> He founded Reportér in 2014; since January 2025 he has run Seznam Zprávy. ${S("Lupa.cz","https://www.lupa.cz/aktuality/robert-casensky-se-stal-sefredaktorem-webu-seznam-zpravy/")}`,
+    `<strong>Seznam as co-owner.</strong> Seznam.cz bought a third of the publisher. ${S("MediaGuru","https://www.mediaguru.cz/robert-casensky-povede-seznam-zpravy-seznam-vstupuje-do-magazinu-reporter")}`,
+    `<strong>Reportér Foundation.</strong> It contributes to reporting trips and special features. ${S("Lupa.cz","https://www.lupa.cz/clanky/robert-casensky-reporter-nechtel-jsem-delat-noviny-pro-zadneho-oligarchu/")}`]},
+  {who:"Institute of Independent Journalism", ini:"ÚNŽ", alert:false, share:"100%", hold:"registered institute (non-profit)", biz:"donations, grants, crowdfunding",
+   profile:"https://hlidacipes.org/o-nas-2/english-summary/",
+   media:[["HlídacíPes.org",0,"https://hlidacipes.org","investigative"]],
+   points:[
+    `<strong>A non-profit operator.</strong> Run by Ondřej Neumann and funded by donations and grants. ${S("Annual report","https://hlidacipes.org/src/uploads/2025/08/Vyrocni-zprava-2024-def-1.pdf")}`,
+    `<strong>Link to Economia.</strong> The board is chaired by Lenka Černá, CEO of Bakala's Economia. ${S("Forbes","https://forbes.cz/lists/zeny23/lenka-cerna/")}`,
+    `<strong>Started with industry money.</strong> Its launch was backed by the Czech Industrialists' Foundation, later by Pavel Baudiš. ${S("MediaGuru","https://www.mediaguru.cz/baudis-podporil-web-hlidacipes-org-ten-organizuje-sbirku")}`]},
+  {who:"Jakub Unger", ini:"JU", alert:false, share:"unverified", hold:"Dead Line Media", biz:"editor-in-chief of Seznam Zprávy until 2024", unverified:true,
+   profile:"https://www.mediaguru.cz/clanky/2015/03/medialni-firma-jakuba-ungera-prijde-se-ctyrmi-weby",
+   media:[["Neovlivní.cz",1,"https://neovlivni.cz","editor-in-chief Sabina Slonková"]],
+   points:[
+    `<strong>The original publisher.</strong> The site was published by Jakub Unger's company Dead Line Media. ${S("MediaGuru","https://www.mediaguru.cz/clanky/2015/03/medialni-firma-jakuba-ungera-prijde-se-ctyrmi-weby")}`,
+    `<strong>Meanwhile Unger worked for a rival.</strong> From 2016 to 2024 he built and ran Seznam Zprávy. ${S("MediaGuru","https://www.mediaguru.cz/jakub-unger-konci-v-cele-webu-seznam-zpravy-i-v-dalsich-funkcich")}`,
+    `<strong>Ownership to be verified.</strong> No newer ownership record from 2025–2026 was found; check the Czech register of beneficial owners.`]}
+ ]},
+ {name:"Veřejná služba", owners:[
+  {who:"Czech Parliament and councils", ini:"ČR", alert:false, share:"public", hold:"ČT Council, ČRo Council, ČTK Council", biz:"licence fees today, funding from the state budget proposed",
+   profile:"https://www.mediaguru.cz/vlada-schvalila-zruseni-poplatku-pro-ct-a-cro-z-rozpoctu-jim-da-o-1-4-mld-mene",
+   media:[["Česká televize",2,"https://www.ceskatelevize.cz","Czech Television"],["Český rozhlas",2,"https://www.rozhlas.cz","Czech Radio"],["ČTK",2,"https://www.ceskenoviny.cz","Czech News Agency"]],
+   points:[
+    `<strong>The end of licence fees.</strong> On 15 June 2026 the government approved funding from the state budget, CZK 1.4 bn less; the Chamber sent the bill to second reading, expected around 15 Jan 2027. ${S("ČTK","https://www.ceskenoviny.cz/zpravy/2896300")}`,
+    `<strong>A fight over independence.</strong> The opposition, the Senate and staff warn that budget funding gives the government leverage over content; a merger of ČT and ČRo is not planned. ${S("Blesk","https://www.blesk.cz/clanek/837316")}`,
+    `<strong>Who runs them.</strong> Directors are elected by councils, the councils by parliament; the coalition wants oversight by the Supreme Audit Office. ${S("ČTK","https://www.ceskenoviny.cz/zpravy/2815795")}`]}
+ ]}
+];
+
+
+const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const pillOf = {"Mafra a Londa":"Mafra","Czech Media Invest":"CMI","Penta / Vltava Labe Media":"Penta / VLM","Economia":"Economia","Seznam.cz":"Seznam","PPF / CME":"PPF / CME","FTV Prima":"Prima / GES","Empresa Media":"Empresa","Naše Média + SPM Media":"SPM / Naše Média"};
+const pillOwner = {"Nadace Independent Press":"N media / Respekt","Independent Press Foundation":"N media / Respekt","Drtinová, Veselovský a spol.":"DVTV","Drtinová, Veselovský et al.":"DVTV","Robert Čásenský":"Reportér","Ústav nezávislé žurnalistiky":"HlídacíPes","Institute of Independent Journalism":"HlídacíPes","Jakub Unger":"Dead Line Media"};
+const T = {
+  cs:{pub:"veřejná služba",konkurz:"konkurz",unver:"neověřeno",risk:"Doložené riziko ovlivňování",hold:"Vlastní přes",biz:"Další byznys",title:"Komu patří česká média"},
+  en:{pub:"public service",konkurz:"insolvency",unver:"unverified",risk:"Documented risk of influence",hold:"Owns through",biz:"Other business",title:"Who Owns Czech Media"}};
+const mediaLink = (m, cls) => m[2]
+  ? `<a class="md tall${cls||''}" href="${m[2]}" target="_blank" rel="noopener">${esc(m[0])}</a>`
+  : `<span class="md tall${cls||''}">${esc(m[0])}</span>`;
+
+function renderRegister(groups, el, pre, t){
+  let n = 0, html = '';
+  groups.forEach(g => g.owners.forEach(o => {
+    n++;
+    const id = pre+n;
+    const grp = pillOwner[o.who] || (g.name==="Veřejná služba" ? t.pub : pillOf[g.name]) || g.name;
+    const tags = `<span class="pill">${esc(grp)}</span>` + (o.konkurz?`<span class="pill grey">${t.konkurz}</span>`:'') + (o.unverified?`<span class="pill grey">${t.unver}</span>`:'');
+    const small = o.unverified ? ' small' : '';
+    html += `<div class="row${o.alert?' hot':''}" id="${id}" aria-expanded="false">
+    <div class="rowhead" role="button" tabindex="0" aria-controls="${id}-d" aria-expanded="false">
+      <span class="who">${o.alert?`<span class="alert" title="${t.risk}">!</span>`:''}<a class="nm tall" href="${o.profile}" target="_blank" rel="noopener">${esc(o.who)}</a>${tags}</span>
+      <span class="media">${o.media.map(m=>mediaLink(m)).join('')}</span>
+      <span class="sh tall${small}">${esc(o.share).replace(/ %/g," %")}</span>
+    </div>
+    <div class="dossier" id="${id}-d" hidden>
+      <div class="facts"><dl><dt>${t.hold}</dt><dd>${esc(o.hold)}</dd><dt>${t.biz}</dt><dd>${esc(o.biz)}</dd></dl></div>
+      <ol class="points">${o.points.map((p,i)=>`<li><span class="no tall">0${i+1}</span><span>${p}</span></li>`).join('')}</ol>
+      <ul class="outlets">${o.media.map(m=>`<li>${mediaLink(m)}<span class="note">${esc(m[3]||'')}</span></li>`).join('')}</ul>
+    </div>
+  </div>`;
+  }));
+  el.innerHTML = html;
+}
+const reg = document.getElementById('register'), regEn = document.getElementById('registerEn');
+renderRegister(groupsCs, reg, 'r', T.cs);
+renderRegister(groupsEn, regEn, 'e', T.en);
+
+function setRow(row, open){
+  row.setAttribute('aria-expanded', open);
+  row.querySelector('.rowhead').setAttribute('aria-expanded', open);
+  row.querySelector('.dossier').hidden = !open;
+}
+[reg, regEn].forEach(R => R.addEventListener('click', e => {
+  const head = e.target.closest('.rowhead'); if (!head) return;
+  const row = head.parentElement, open = row.getAttribute('aria-expanded') === 'true';
+  const link = e.target.closest('a');
+  if (link && open) return;            // once a row is open, the name opens the profile and media open the outlet
+  if (link) e.preventDefault();        // in a collapsed row any tap (also on a phone) just unfolds it
+  setRow(row, !open);
+}));
+[reg, regEn].forEach(R => R.addEventListener('keydown', e => {
+  const head = e.target.classList && e.target.classList.contains('rowhead') ? e.target : null;
+  if (head && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); const r = head.parentElement; setRow(r, r.getAttribute('aria-expanded') !== 'true'); }
+}));
+const all = open => document.querySelectorAll('.row').forEach(r => setRow(r, open));
+document.getElementById('expandAll').onclick = () => all(true);
+document.getElementById('collapseAll').onclick = () => all(false);
+
+const frame = document.getElementById('frame');
+function fitIg(){
+  frame.style.minHeight = '';
+  if (!document.body.classList.contains('ig')) { frame.style.removeProperty('--k'); return; }
+  let k = 0.9;
+  frame.style.setProperty('--k', k);
+  while (frame.offsetHeight > frame.offsetWidth / 1.91 && k > 0.5) { k -= 0.02; frame.style.setProperty('--k', k.toFixed(2)); }
+  frame.style.minHeight = (frame.offsetWidth / 1.91) + 'px';
+}
+const igBtn = document.getElementById('igMode');
+const setIg = on => { document.body.classList.toggle('ig', on); igBtn.setAttribute('aria-pressed', on); fitIg(); };
+igBtn.onclick = () => setIg(!document.body.classList.contains('ig'));
+window.addEventListener('resize', fitIg);
+/* language: one page, two registers and two titles; #en, #en-instagram, #en-vse keep the English view in links */
+function setLang(en){
+  document.body.classList.toggle('en', en);
+  document.documentElement.lang = en ? 'en' : 'cs';
+  document.title = en ? T.en.title : T.cs.title;
+  fitIg();
+}
+const DEFAULT_EN = false;
+document.getElementById('langBtn').addEventListener('click', e => { e.preventDefault(); setLang(!document.body.classList.contains('en')); });
+const h0 = location.hash.slice(1);
+if (h0 === 'cs' || h0.startsWith('cs-')) setLang(false);
+else if (DEFAULT_EN || h0 === 'en' || h0.startsWith('en-')) setLang(true);
+if (/(^|-)vse$/.test(h0)) all(true);
+if (/(^|-)instagram$/.test(h0)) setIg(true);
+
+/* pixel titles: a fine square grid; every letter is one block of the same size, placed with random vertical steps
+   so the blocks step against each other; snakes (static + pointer trail) join and surround the words */
+function makeTitle(box, g, cfg){
+  const {FC,FR,bw,bh,gap,step,range,thick,words,tails,seed:s0,trailMs}=cfg; const tstep=cfg.tstep||step, tthick=cfg.tthick||thick;
+  const fine=document.createElement('div'); fine.className='tfine'; fine.style.gridTemplateColumns=`repeat(${FC},minmax(0,1fr))`; g.appendChild(fine);
+  const cells=[]; for(let i=0;i<FC*FR;i++){const d=document.createElement('div');d.className='cell';fine.appendChild(d);cells.push(d);}
+  const idx=(r,c)=>r*FC+c, inb=(r,c)=>r>=0&&c>=0&&r<FR&&c<FC;
+  let seed=s0; const rnd=()=>((seed=(seed*9301+49297)%233280)/233280);
+  const owner=new Map(), glyphs=[], ends=[];
+  const own=(r,c,wi)=>{if(inb(r,c))owner.set(idx(r,c),wi);};
+  words.forEach(([w,base,c0],wi)=>{
+    let c=c0, prevR=null;
+    [...w].forEach((ch,i)=>{
+      let r=base;
+      if(prevR!==null){
+        let k; do{k=Math.round((rnd()*2-1)*range);}while(k===0&&rnd()<.6);
+        r=Math.max(base-range*step,Math.min(base+range*step,prevR+k*step));
+      }
+      r=Math.max(0,Math.min(FR-bh,r));
+      if(gap&&prevR!==null){const top=Math.max(prevR,r),bot=Math.min(prevR,r)+bh;for(let rr=top;rr<bot;rr++)for(let k=1;k<=gap;k++)own(rr,c-k,wi);}
+      for(let dr=0;dr<bh;dr++)for(let dc=0;dc<bw;dc++)own(r+dr,c+dc,wi);
+      const gl=document.createElement('div');gl.className='glyph';gl.dataset.word=wi;
+      gl.style.left=(c/FC*100)+'%';gl.style.top=(r/FR*100)+'%';gl.style.width=(bw/FC*100)+'%';gl.style.height=(bh/FR*100)+'%';
+      gl.innerHTML='<span>'+ch+'</span>';g.appendChild(gl);glyphs.push(gl);
+      const mid=r+Math.round((bh-thick)/2);
+      if(i===0)ends.push({s:[mid,c-thick]});
+      prevR=r; c+=bw+gap;
+      if(i===w.length-1)ends[wi].e=[mid,c-gap];
+    });
+  });
+  for(const [k,wi] of owner){const d=cells[k];d.classList.add('wc');d.dataset.word=wi;
+    const r=Math.floor(k/FC),c=k%FC,same=(rr,cc)=>inb(rr,cc)&&owner.get(idx(rr,cc))===wi;
+    if(!same(r-1,c))d.style.setProperty('--t','2px');if(!same(r+1,c))d.style.setProperty('--b','2px');
+    if(!same(r,c-1))d.style.setProperty('--l','2px');if(!same(r,c+1))d.style.setProperty('--r','2px');
+    /* inner (concave) corners: both side neighbours belong to the word but the diagonal does not, so close the outline exactly in the corner */
+    if(same(r-1,c)&&same(r,c-1)&&!same(r-1,c-1))d.style.setProperty('--tl','2px');
+    if(same(r-1,c)&&same(r,c+1)&&!same(r-1,c+1))d.style.setProperty('--tr','2px');
+    if(same(r+1,c)&&same(r,c-1)&&!same(r+1,c-1))d.style.setProperty('--bl','2px');
+    if(same(r+1,c)&&same(r,c+1)&&!same(r+1,c+1))d.style.setProperty('--br','2px');}
+  const paint=(r,c)=>{for(let dr=0;dr<thick;dr++)for(let dc=0;dc<thick;dc++){if(inb(r+dr,c+dc)&&!owner.has(idx(r+dr,c+dc)))cells[idx(r+dr,c+dc)].classList.add('on');}};
+  const route=(a,b)=>{let [r,c]=a;const [r1,c1]=b;const mid=c+Math.round((c1-c)/2/step)*step;
+    while(c!==mid){paint(r,c);c+=c<mid?1:-1;} while(r!==r1){paint(r,c);r+=r<r1?1:-1;} while(c!==c1){paint(r,c);c+=c<c1?1:-1;} paint(r,c);};
+  for(let i=0;i<ends.length-1;i++)route(ends[i].e,ends[i+1].s);
+  tails(route,ends);
+  g.addEventListener('click',e=>{const d=e.target.closest('.cell.wc');if(!d)return;const wi=d.dataset.word;
+    fine.querySelectorAll('.cell.wc[data-word="'+wi+'"]').forEach(x=>x.classList.toggle('w'));
+    glyphs.filter(x=>x.dataset.word===wi).forEach(x=>x.classList.toggle('w'));});
+  /* pointer trail: snapped to the grid step, stays for trailMs */
+  const trail=new Map(); let last=null, raf=0;
+  function mark(r,c){if(!inb(r,c))return;const i=idx(r,c);if(owner.has(i))return;cells[i].classList.add('trail');trail.set(i,performance.now());}
+  function blk(r,c){for(let dr=0;dr<tthick;dr++)for(let dc=0;dc<tthick;dc++)mark(r+dr,c+dc);}
+  function line(a,b){let [r0,c0]=a;const [r1,c1]=b;
+    while(c0!==c1){blk(r0,c0);c0+=c0<c1?tstep:-tstep;} while(r0!==r1){blk(r0,c0);r0+=r0<r1?tstep:-tstep;} blk(r0,c0);}
+  function tick(){const now=performance.now();for(const [i,t] of trail){if(now-t>trailMs){cells[i].classList.remove('trail');trail.delete(i);}}raf=trail.size?requestAnimationFrame(tick):0;}
+  box.addEventListener('pointermove',e=>{const rc=fine.getBoundingClientRect();const cs=rc.width/FC;
+    let c=Math.floor((e.clientX-rc.left)/cs), r=Math.floor((e.clientY-rc.top)/cs);
+    if(!inb(r,c)){last=null;return;}
+    c-=c%tstep; r-=r%tstep;
+    const p=[r,c]; if(last)line(last,p); else blk(r,c); last=p; if(!raf)raf=requestAnimationFrame(tick);});
+  box.addEventListener('pointerleave',()=>{last=null;});
+}
+makeTitle(document.getElementById('title'),document.getElementById('tgrid'),{
+  FC:104,FR:40,bw:6,bh:10,gap:0,step:2,range:2,thick:4,tstep:8,tthick:8,seed:7,trailMs:10000,
+  words:[["KOMU",6,4],["PATŘÍ",24,18],["ČESKÁ",8,52],["MÉDIA",26,68]],
+  tails:(route,ends)=>{route(ends[0].s,[32,0]);route(ends[3].e,[2,100]);}
+});
+makeTitle(document.getElementById('titleIg'),document.getElementById('tgridIg'),{
+  FC:192,FR:24,bw:6,bh:10,gap:0,step:2,range:2,thick:4,tstep:8,tthick:8,seed:5,trailMs:10000,
+  words:[["KOMU",4,22],["PATŘÍ",6,60],["ČESKÁ",10,102],["MÉDIA",4,144]],
+  tails:(route,ends)=>{route(ends[3].e,[2,188]);route(ends[0].s,[18,0]);}
+});
+makeTitle(document.getElementById('titleEn'),document.getElementById('tgridEn'),{
+  FC:104,FR:40,bw:6,bh:10,gap:0,step:2,range:2,thick:4,tstep:8,tthick:8,seed:7,trailMs:10000,
+  words:[["WHO",6,6],["OWNS",24,20],["CZECH",8,52],["MEDIA",26,68]],
+  tails:(route,ends)=>{route(ends[0].s,[32,0]);route(ends[3].e,[2,100]);}
+});
+makeTitle(document.getElementById('titleIgEn'),document.getElementById('tgridIgEn'),{
+  FC:192,FR:24,bw:6,bh:10,gap:0,step:2,range:2,thick:4,tstep:8,tthick:8,seed:5,trailMs:10000,
+  words:[["WHO",4,22],["OWNS",6,56],["CZECH",10,96],["MEDIA",4,142]],
+  tails:(route,ends)=>{route(ends[3].e,[2,188]);route(ends[0].s,[18,0]);}
+});
+fitIg();
+</script>
+
+</body>
+</html>
