@@ -173,10 +173,12 @@ body.ig .igfoot strong{font-weight:700}
 .pmeta{font-size:12px;color:inherit;letter-spacing:.05em;text-transform:uppercase;margin:0 0 10px}
 /* photos: 15 % wider than their grid cell; the picture sits under the boxes (z 1 < 2), its credit above everything (z 3) so it is never hidden */
 .pphoto{position:relative;z-index:auto;min-width:0;width:115%;margin-left:var(--pml,-7.5%);aspect-ratio:4/3;background:#b9b9b9}
-.pphoto img{position:relative;z-index:1;display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.08)}
+.pphoto img{position:relative;z-index:1;display:block;width:100%;height:100%;object-fit:cover}
+.pphoto img.png{object-fit:contain}
+.pphoto.loaded{background:none}
 .pphoto.empty{background:#b7b7b7}
 /* photo credit box: text comes from foto-N.txt next to the page (line 1 Czech, optional line 2 English) */
-.pcap{position:absolute;top:10px;right:10px;max-width:calc(100% - 20px);z-index:3;background:#fff;color:var(--ink);border:1.5px solid var(--ink);font-size:11px;line-height:1.35;padding:3px 8px;text-align:left}
+.pcap{position:absolute;top:10px;right:10px;white-space:normal;max-width:calc(100% - 20px);z-index:3;background:#fff;color:var(--ink);border:1.5px solid var(--ink);font-size:11px;line-height:1.35;padding:3px 8px;text-align:left}
 .pcap a{color:var(--ink)}
 .pphoto.empty::after{content:attr(data-name);position:absolute;left:10px;bottom:8px;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#555;background:var(--pg);padding:1px 6px}
 .psrc{font-size:11.5px;line-height:1.5}
@@ -185,12 +187,8 @@ body.ig .igfoot strong{font-weight:700}
 @media (max-width:820px){
   .pubgfx{grid-template-columns:minmax(0,1fr);gap:16px;padding:16px 12px}
   .pubgfx>*{grid-column:1/-1!important;grid-row:auto!important;margin:0!important}
-  .pubgfx>.pphoto{margin:0 8% 0 22%!important}
-  /* phone: the credit sits under the photo instead of on top of it */
-  .pphoto:not(.empty){aspect-ratio:auto;overflow:visible;background:none}
-  .pphoto img{height:auto;aspect-ratio:4/3}
-  .pcap{position:static;display:inline-block;margin-top:6px;max-width:100%}
-  .pubgfx>.pphoto.l{margin:0 22% 0 8%!important}
+  /* phone: photos run edge to edge and tuck under the neighbouring boxes */
+  .pubgfx>.pphoto,.pubgfx>.pphoto.l{margin:-44px -12px!important}
   .pbox{padding:28px 18px 22px}
   .pphoto{width:auto}
   .psrc ol{columns:1}
@@ -679,7 +677,7 @@ function pubPanel(lang, media){
   const tw = str => String(str).split(' ').map(w => `<span class="tw">${w}</span>`).join(' ');
   const at = (c, r, mt, extra='') => `style="grid-column:${c};grid-row:${r};margin-top:${mt||0}px${extra}"`;
   const tag = k => `<span class="ptag ${k}">${P[k]}</span>`;
-  const photo = (n, c, r, mt, side) => `<figure class="pphoto${side?' l':''}" data-name="foto-${n}.jpg · ${lang==='en'?'credit':'popisek'}: foto-${n}.txt" ${at(c, r, mt, ';--pml:' + (c.startsWith('1 ') ? '0%' : / 13$/.test(c) ? '-15%' : '-7.5%'))}><img src="foto-${n}.jpg" alt="" loading="lazy" onerror="this.parentNode.classList.add('empty');this.remove()"><figcaption class="pcap" data-src="foto-${n}.txt" data-lang="${lang}" hidden></figcaption></figure>`;
+  const photo = (n, c, r, mt, side) => `<figure class="pphoto${side?' l':''}" data-name="foto-${n}.jpg · ${lang==='en'?'credit':'popisek'}: foto-${n}.txt" ${at(c, r, mt, ';--pml:' + (c.startsWith('1 ') ? '0%' : / 13$/.test(c) ? '-15%' : '-7.5%'))}><img src="foto-${n}.jpg" data-n="${n}" alt="" loading="lazy" onerror="pubImgErr(this)" onload="pubImgOk(this)"><figcaption class="pcap" data-src="foto-${n}.txt" data-lang="${lang}" hidden></figcaption></figure>`;
   const links = media.map(m => m[2] ? `<a href="${m[2]}" target="_blank" rel="noopener">${esc(m[0])}</a>` : esc(m[0])).join(' · ');
   const used = [...new Set(Object.keys(PSRC))];
   return `<div class="pubgfx" lang="${lang}">
@@ -733,7 +731,35 @@ function drawEdge(box){
   p.setAttribute('stroke', note ? getComputedStyle(box).color : '#000');
   if (note) { p.setAttribute('stroke-dasharray', '0 6'); p.setAttribute('stroke-linecap', 'round'); p.setAttribute('stroke-width', '2.4'); p.removeAttribute('shape-rendering'); }
 }
+/* photos: try foto-N.jpg, then foto-N.png (transparent cut-outs are shown whole), else a grey placeholder */
+function pubImgErr(img){
+  if (!img.dataset.png) { img.dataset.png = 1; img.classList.add('png'); img.src = 'foto-' + img.dataset.n + '.png'; return; }
+  const fig = img.parentNode; fig.classList.add('empty'); img.remove(); placeCaps(fig.closest('.pubgfx'));
+}
+function pubImgOk(img){ img.parentNode.classList.add('loaded'); placeCaps(img.closest('.pubgfx')); }
+
+/* credits sit on the photo, preferably top right, and never on top of a box: try candidate spots until one is free */
+function placeCaps(root){
+  if (!root || !root.offsetWidth) return;
+  const boxes = [...root.querySelectorAll('.pbox')].map(b => b.getBoundingClientRect());
+  root.querySelectorAll('.pcap:not([hidden])').forEach(cap => {
+    const fig = cap.parentNode, P = fig.getBoundingClientRect(); if (!P.width) return;
+    cap.style.left = '0px'; cap.style.top = '0px'; cap.style.right = 'auto';
+    const w = cap.offsetWidth, h = cap.offsetHeight, m = 10;
+    const hits = boxes.filter(b => b.right > P.left && b.left < P.right && b.bottom > P.top && b.top < P.bottom);
+    const ys = [P.top + m, ...hits.map(b => b.bottom + m), P.bottom - h - m, ...hits.map(b => b.top - h - m)];
+    const xs = [P.right - w - m, P.left + m];
+    const free = (x, y) => x >= P.left && y >= P.top && x + w <= P.right && y + h <= P.bottom &&
+      !boxes.some(b => x < b.right + 2 && x + w > b.left - 2 && y < b.bottom + 2 && y + h > b.top - 2);
+    let spot = null;
+    for (const x of xs) { for (const y of ys) if (free(x, y)) { spot = [x, y]; break; } if (spot) break; }
+    if (!spot) spot = [xs[0], P.top + m];
+    cap.style.left = Math.round(spot[0] - P.left) + 'px'; cap.style.top = Math.round(spot[1] - P.top) + 'px';
+  });
+}
+const capRO = ('ResizeObserver' in window) ? new ResizeObserver(es => es.forEach(e => placeCaps(e.target))) : null;
 function initPub(root){
+  if (capRO) root.querySelectorAll('.pubgfx').forEach(g => capRO.observe(g));
   root.querySelectorAll('.pubgfx .pbox').forEach((b, i) => { b.dataset.seed = 11 + i * 37; drawEdge(b); if (edgeRO) edgeRO.observe(b); });
   /* photo credits: read foto-N.txt once per file; line 1 = Czech, line 2 = English (falls back to line 1) */
   const cache = {};
@@ -744,7 +770,7 @@ function initPub(root){
         if (/<html|<!doctype/i.test(txt)) return;           // a 404 page served as text, not a credit
         const lines = txt.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
         const line = cap.dataset.lang === 'en' ? (lines[1] || lines[0]) : lines[0];
-        if (line) { cap.textContent = line; cap.hidden = false; }
+        if (line) { cap.textContent = line; cap.hidden = false; placeCaps(cap.closest('.pubgfx')); }
       });
   });
 }
