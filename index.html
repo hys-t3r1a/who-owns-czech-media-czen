@@ -49,6 +49,8 @@ h1{font-weight:700;font-size:clamp(40px,8.4vw,104px);line-height:.98;letter-spac
 /* register */
 .head,.rowhead{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,2.3fr) minmax(0,.65fr);gap:16px;align-items:center}
 .head{font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding-bottom:6px;border-bottom:2px dotted var(--rule)}
+/* the MEDIA label looks like the media squares below, so the squares read as media */
+.head>span:nth-child(2){justify-self:start;background:var(--ink);color:#fff;padding:2px 6px;font-weight:700}
 .row{border-bottom:2px dotted var(--rule)}
 .rowhead{padding:8px 0;cursor:pointer}
 .who{display:flex;flex-wrap:wrap;gap:5px 9px;align-items:center;min-width:0}
@@ -103,13 +105,16 @@ h1{font-weight:700;font-size:clamp(40px,8.4vw,104px);line-height:.98;letter-spac
 .tfine .cell.on,.tfine .cell.trail,.tfine .cell.wc{background:var(--ink)}
 .tfine .cell.wc{cursor:pointer}
 .tfine .cell.on,.tfine .cell.trail,.tfine .cell.wc{box-shadow:0 0 0 .6px var(--ink)}
-.tfine .cell.wc.w{background:linear-gradient(var(--ink),var(--ink)) 0 0/var(--tl) var(--tl) no-repeat,linear-gradient(var(--ink),var(--ink)) 100% 0/var(--tr) var(--tr) no-repeat,linear-gradient(var(--ink),var(--ink)) 0 100%/var(--bl) var(--bl) no-repeat,linear-gradient(var(--ink),var(--ink)) 100% 100%/var(--br) var(--br) no-repeat,#fff;box-shadow:inset 0 var(--t) 0 var(--ink),inset 0 calc(-1*var(--b)) 0 var(--ink),inset var(--l) 0 0 var(--ink),inset calc(-1*var(--r)) 0 0 var(--ink)}
+/* outline drawn with background layers only (inset box-shadow is dropped by Safari when exporting the PNG) */
+.tfine .cell.wc.w{box-shadow:none;background:linear-gradient(var(--ink),var(--ink)) 0 0/100% var(--t) no-repeat,linear-gradient(var(--ink),var(--ink)) 0 100%/100% var(--b) no-repeat,linear-gradient(var(--ink),var(--ink)) 0 0/var(--l) 100% no-repeat,linear-gradient(var(--ink),var(--ink)) 100% 0/var(--r) 100% no-repeat,linear-gradient(var(--ink),var(--ink)) 0 0/var(--tl) var(--tl) no-repeat,linear-gradient(var(--ink),var(--ink)) 100% 0/var(--tr) var(--tr) no-repeat,linear-gradient(var(--ink),var(--ink)) 0 100%/var(--bl) var(--bl) no-repeat,linear-gradient(var(--ink),var(--ink)) 100% 100%/var(--br) var(--br) no-repeat,#fff}
 /* every letter sits centred in a block of identical size; the block is ~20 % taller and wider than the letter incl. diacritics */
 .glyph{position:absolute;display:grid;place-items:center;pointer-events:none;color:#fff;font-weight:700;font-size:4.05cqw;line-height:1;text-transform:uppercase}
 .glyph span{display:block;transform:translateY(.06em) scaleY(1.58)}
 .web .tgrid{z-index:0;--T:calc(100cqw/13)}
 .tgrid::before{content:"";position:absolute;inset:-3px;z-index:-1;pointer-events:none;background-image:radial-gradient(circle at center,var(--ink) 0 1px,transparent 1.4px);background-size:var(--T) var(--T);background-position:calc(3px - var(--T)/2) calc(3px - var(--T)/2)}
 .glyph.w{color:var(--ink)}
+/* phone: extra 8x8 black squares in the landing title, so it looks as dense as after a swipe */
+@media (max-width:820px){.web .tfine .cell.mx{background:var(--ink);box-shadow:0 0 0 .6px var(--ink)}}
 .title.igt{display:none}
 body.ig .title.web{display:none}
 body.ig .title.igt{display:block;width:100%;margin:0 0 calc(1.4cqw*var(--k))}
@@ -122,9 +127,10 @@ body.ig .nm .tw,body.ig .sh .tw{transform:scaleY(1.3)}
 body.ig .rowhead .md{transform:none}
 
 /* Instagram landscape frame (1.91:1): register in two columns, shrunk by --k until it fits */
-body.ig .band,body.ig .top,body.ig .lede,body.ig .foot,body.ig .dossier,body.ig .legend .extra,body.ig .head{display:none!important}
+body.ig .band,body.ig .top,body.ig .lede,body.ig .foot,body.ig .dossier,body.ig .legend .extra{display:none!important}
 body.ig .wrap{box-sizing:border-box;width:min(1080px,100%);max-width:none;container-type:inline-size;margin:12px auto 24px;padding:2.4cqw 2.4cqw 1.8cqw;font-size:calc(.85cqw*var(--k));display:flex;flex-direction:column;box-shadow:0 0 0 1px var(--grey)}
-body.ig #register,body.ig #registerEn{border-top:2px dotted var(--rule)}
+body.ig .head{font-size:calc(.68cqw*var(--k));gap:.9cqw;grid-template-columns:minmax(0,1.5fr) minmax(0,2.2fr) minmax(0,.75fr);padding-bottom:calc(.35cqw*var(--k))}
+body.ig .head>span:nth-child(2){padding:calc(.05cqw*var(--k)) calc(.3cqw*var(--k))}
 body.ig .row{break-inside:avoid}
 
 body.ig .legend{font-size:calc(.8cqw*var(--k));margin-bottom:calc(.9cqw*var(--k));gap:.4cqw 1.6cqw}
@@ -199,9 +205,8 @@ body.ig .igfoot strong{font-weight:700}
 }
 @media (max-width:820px){
   body:not(.ig) .head{grid-template-columns:auto minmax(0,1fr) auto;gap:12px}
-  body:not(.ig) .head span:last-child{text-align:right}
+  body:not(.ig) .head>span:last-child{text-align:right}
   /* phone: the MEDIA label looks like the media squares below, so the squares read as media */
-  body:not(.ig) .head span:nth-child(2){justify-self:start;background:var(--ink);color:#fff;padding:2px 6px;font-weight:700}
   body:not(.ig) .rowhead{grid-template-columns:minmax(0,1fr) auto;gap:6px 12px}
   body:not(.ig) .rowhead .media{grid-column:1 / 3}
   body:not(.ig) .rowhead .sh{grid-column:2;grid-row:1;text-align:right}
@@ -232,7 +237,7 @@ body.ig .igfoot strong{font-weight:700}
   <div class="head" aria-hidden="true"><span><span class="l-cs">Vlastník</span><span class="l-en" lang="en">Owner</span></span><span><span class="l-cs">Média</span><span class="l-en" lang="en">Media</span></span><span><span class="l-cs">Podíl</span><span class="l-en" lang="en">Stake</span></span></div>
   <div id="register" class="l-cs"></div>
   <div id="registerEn" class="l-en" lang="en"></div>
-  <div class="igfoot"><span><span class="l-cs">Zdroje: MUP Praha 2026, ČTK, MediaGuru, ČT24, Seznam Zprávy, Forbes a další. Navazuje na infografiku NFPK.</span><span class="l-en" lang="en">Sources: MUP Prague 2026, ČTK, MediaGuru, ČT24, Seznam Zprávy, Forbes and others. Builds on the NFPK infographic.</span></span><strong><span class="l-cs">Detaily a zdroje: odkaz v biu</span><span class="l-en" lang="en">Details and sources: link in bio</span></strong></div>
+  <div class="igfoot"><span><span class="l-cs">Zdroje: MUP Praha 2026, ČTK, MediaGuru, ČT24, Seznam Zprávy, Forbes a další. Navazuje na infografiku NFPK.</span><span class="l-en" lang="en">Sources: MUP Prague 2026, ČTK, MediaGuru, ČT24, Seznam Zprávy, Forbes and others. Builds on the NFPK infographic.</span></span></div>
   <div class="foot">
     <section>
       <h2><span class="l-cs">Bývalí vlastníci</span><span class="l-en" lang="en">Former owners</span></h2>
@@ -851,6 +856,7 @@ pngBtn.addEventListener('click', async () => {
     const clone = frame.cloneNode(true);
     clone.querySelectorAll('.trail').forEach(c => c.classList.remove('trail'));
     clone.querySelectorAll('.dossier').forEach(d => d.hidden = true);
+    clone.querySelectorAll('img[onload],img[onerror]').forEach(i => { i.removeAttribute('onload'); i.removeAttribute('onerror'); });
     /* export look: every title word shown white (as if clicked) and a few extra 8x8 black squares at both ends for balance */
     clone.querySelectorAll('.igt .cell.wc, .igt .glyph').forEach(c => c.classList.add('w'));
     clone.querySelectorAll('.igt .tfine').forEach(fn => {
@@ -995,6 +1001,11 @@ makeTitle(document.getElementById('titleIgEn'),document.getElementById('tgridIgE
   words:[["WHO",4,22],["OWNS",6,56],["CZECH",10,96],["MEDIA",4,142]],
   tails:(route,ends)=>{route(ends[3].e,[2,188]);route(ends[0].s,[18,0]);}
 });
+/* phone only (CSS decides): extra squares in the web titles, snapped to the 8-cell trail grid */
+const MOBILE_BLOCKS = [[16,0],[24,0],[14,6],[4,24],[16,26],[20,40],[16,48],[26,48],[2,58],[14,70],[8,96],[16,96],[24,94],[32,62],[34,84]];
+['tgrid','tgridEn'].forEach(id => { const fn = document.querySelector('#' + id + ' .tfine'); if (!fn) return; const cells = fn.children;
+  MOBILE_BLOCKS.forEach(([r0, c0]) => { for (let r = r0; r < r0 + 8 && r < 40; r++) for (let c = c0; c < c0 + 8 && c < 104; c++) {
+    const cell = cells[r * 104 + c]; if (cell && !cell.classList.contains('wc')) cell.classList.add('mx'); } }); });
 fitIg();
 </script>
 
