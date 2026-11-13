@@ -228,7 +228,6 @@ body.ig .igfoot strong{font-weight:700}
   <div class="legend">
     <span class="k"><span class="alert" aria-hidden="true">!</span> <span class="l-cs">doložený zásah do obsahu nebo vlastníkem přiznaný zájem na vlivu</span><span class="l-en" lang="en">documented interference in content or an owner’s admitted interest in influence</span></span>
     <span class="k"><span class="pill"><span class="l-cs">skupina</span><span class="l-en" lang="en">group</span></span> <span class="l-cs">mediální skupina</span><span class="l-en" lang="en">media group</span></span>
-    <span class="k extra"><span class="pill grey"><span class="l-cs">konkurz</span><span class="l-en" lang="en">insolvency</span></span> <span class="l-cs">médium v insolvenci</span><span class="l-en" lang="en">outlet in insolvency</span></span>
   </div>
   <div class="head" aria-hidden="true"><span><span class="l-cs">Vlastník</span><span class="l-en" lang="en">Owner</span></span><span><span class="l-cs">Média</span><span class="l-en" lang="en">Media</span></span><span><span class="l-cs">Podíl</span><span class="l-en" lang="en">Stake</span></span></div>
   <div id="register" class="l-cs"></div>
@@ -259,6 +258,15 @@ body.ig .igfoot strong{font-weight:700}
 <script>
 const S = (t,u) => `<a class="src" href="${u}" target="_blank" rel="noopener">${t}</a>`;
 const groupsCs = [
+ {name:"Veřejná služba", owners:[
+  {who:"Veřejnoprávní média", ini:"ČR", alert:false, pub:true, share:"veřejné", hold:"veřejná kontrola přes rady ČT, ČRo a ČTK", biz:"ČT a ČRo: poplatky; ČTK: prodej služeb",
+   profile:"https://www.mediaguru.cz/vlada-schvalila-zruseni-poplatku-pro-ct-a-cro-z-rozpoctu-jim-da-o-1-4-mld-mene",
+   media:[["Česká televize",2,"https://www.ceskatelevize.cz",""],["Český rozhlas",2,"https://www.rozhlas.cz",""],["ČTK",2,"https://www.ceskenoviny.cz",""]],
+   points:[
+    `<strong>Konec poplatků.</strong> Vláda 15. 6. 2026 schválila financování ze státního rozpočtu, o 1,4 mld. Kč méně; Sněmovna zákon poslala do 2. čtení, to má být kolem 15. 1. 2027. ${S("ČTK","https://www.ceskenoviny.cz/zpravy/2896300")}`,
+    `<strong>Spor o nezávislost.</strong> Opozice, Senát a zaměstnanci varují, že rozpočet dá vládě páku na obsah; sloučení ČT a ČRo se nechystá. ${S("ČTK","https://www.ceskenoviny.cz/index_view.php?id=2842077")}`,
+    `<strong>Kdo je řídí.</strong> Ředitele volí rady, rady volí parlament; koalice chce kontrolu NKÚ. ${S("ČTK","https://www.ceskenoviny.cz/zpravy/2815795")}`]}
+ ]},
  {name:"Mafra a Londa", owners:[
   {who:"Karel Pražák", ini:"KP", alert:false, share:"50 %", hold:"Kaprain", biz:"chemie, developerské projekty, sport (HC Sparta, FK Pardubice)",
    profile:"https://forbes.cz/lists/nc25/karel-prazak/",
@@ -404,18 +412,18 @@ const groupsCs = [
     `<strong>Jediná vlastnice od roku 2016.</strong> Podle obchodního rejstříku drží 100 % firmy Dead Line Media od 19. 10. 2016 a je také její jednatelkou. ${S("Obchodní rejstřík","https://www.podnikatel.cz/rejstrik/dead-line-media-s-r-o-03664317/")}`,
     `<strong>Převzala firmu od Ungera.</strong> Dead Line Media založil v roce 2015 Jakub Unger; v létě 2016 ho Slonková nahradila v čele firmy, Unger odešel budovat Seznam Zprávy. ${S("MediaGuru","https://www.mediaguru.cz/clanky/2016/08/jednatelem-deadlinemedia-je-sabina-slonkova")}`,
     `<strong>Vlastnice je zároveň šéfredaktorka.</strong> Web tedy nemá vlastníka mimo redakci. ${S("MediaGuru","https://www.mediaguru.cz/clanky/2015/03/slonkova-spustila-novy-web-neovlivni-cz")}`]}
- ]},
- {name:"Veřejná služba", owners:[
-  {who:"Veřejnoprávní média", ini:"ČR", alert:false, pub:true, share:"veřejné", hold:"veřejná kontrola přes rady ČT, ČRo a ČTK", biz:"ČT a ČRo: poplatky; ČTK: prodej služeb",
-   profile:"https://www.mediaguru.cz/vlada-schvalila-zruseni-poplatku-pro-ct-a-cro-z-rozpoctu-jim-da-o-1-4-mld-mene",
-   media:[["Česká televize",2,"https://www.ceskatelevize.cz",""],["Český rozhlas",2,"https://www.rozhlas.cz",""],["ČTK",2,"https://www.ceskenoviny.cz",""]],
-   points:[
-    `<strong>Konec poplatků.</strong> Vláda 15. 6. 2026 schválila financování ze státního rozpočtu, o 1,4 mld. Kč méně; Sněmovna zákon poslala do 2. čtení, to má být kolem 15. 1. 2027. ${S("ČTK","https://www.ceskenoviny.cz/zpravy/2896300")}`,
-    `<strong>Spor o nezávislost.</strong> Opozice, Senát a zaměstnanci varují, že rozpočet dá vládě páku na obsah; sloučení ČT a ČRo se nechystá. ${S("ČTK","https://www.ceskenoviny.cz/index_view.php?id=2842077")}`,
-    `<strong>Kdo je řídí.</strong> Ředitele volí rady, rady volí parlament; koalice chce kontrolu NKÚ. ${S("ČTK","https://www.ceskenoviny.cz/zpravy/2815795")}`]}
  ]}
 ];
 const groupsEn = [
+ {name:"Veřejná služba", owners:[
+  {who:"Public service media", ini:"ČR", alert:false, pub:true, share:"public", hold:"public oversight through the ČT, ČRo and ČTK councils", biz:"ČT and ČRo: licence fees; ČTK: sale of services",
+   profile:"https://www.mediaguru.cz/vlada-schvalila-zruseni-poplatku-pro-ct-a-cro-z-rozpoctu-jim-da-o-1-4-mld-mene",
+   media:[["Česká televize",2,"https://www.ceskatelevize.cz","Czech Television"],["Český rozhlas",2,"https://www.rozhlas.cz","Czech Radio"],["ČTK",2,"https://www.ceskenoviny.cz","Czech News Agency"]],
+   points:[
+    `<strong>The end of licence fees.</strong> On 15 June 2026 the government approved funding from the state budget, CZK 1.4 bn less; the Chamber sent the bill to second reading, expected around 15 Jan 2027. ${S("ČTK","https://www.ceskenoviny.cz/zpravy/2896300")}`,
+    `<strong>A fight over independence.</strong> The opposition, the Senate and staff warn that budget funding gives the government leverage over content; a merger of ČT and ČRo is not planned. ${S("ČTK","https://www.ceskenoviny.cz/index_view.php?id=2842077")}`,
+    `<strong>Who runs them.</strong> Directors are elected by councils, the councils by parliament; the coalition wants oversight by the Supreme Audit Office. ${S("ČTK","https://www.ceskenoviny.cz/zpravy/2815795")}`]}
+ ]},
  {name:"Mafra a Londa", owners:[
   {who:"Karel Pražák", ini:"KP", alert:false, share:"50%", hold:"Kaprain", biz:"chemicals, real-estate development, sport (HC Sparta, FK Pardubice)",
    profile:"https://forbes.cz/lists/nc25/karel-prazak/",
@@ -561,15 +569,6 @@ const groupsEn = [
     `<strong>Sole owner since 2016.</strong> According to the commercial register she has held 100% of Dead Line Media since 19 Oct 2016 and is also its managing director. ${S("Commercial register","https://www.podnikatel.cz/rejstrik/dead-line-media-s-r-o-03664317/")}`,
     `<strong>Took the company over from Unger.</strong> Jakub Unger founded Dead Line Media in 2015; in summer 2016 Slonková replaced him at the head of the company and Unger left to build Seznam Zprávy. ${S("MediaGuru","https://www.mediaguru.cz/clanky/2016/08/jednatelem-deadlinemedia-je-sabina-slonkova")}`,
     `<strong>The owner is also the editor-in-chief.</strong> So the site has no owner outside the newsroom. ${S("MediaGuru","https://www.mediaguru.cz/clanky/2015/03/slonkova-spustila-novy-web-neovlivni-cz")}`]}
- ]},
- {name:"Veřejná služba", owners:[
-  {who:"Public service media", ini:"ČR", alert:false, pub:true, share:"public", hold:"public oversight through the ČT, ČRo and ČTK councils", biz:"ČT and ČRo: licence fees; ČTK: sale of services",
-   profile:"https://www.mediaguru.cz/vlada-schvalila-zruseni-poplatku-pro-ct-a-cro-z-rozpoctu-jim-da-o-1-4-mld-mene",
-   media:[["Česká televize",2,"https://www.ceskatelevize.cz","Czech Television"],["Český rozhlas",2,"https://www.rozhlas.cz","Czech Radio"],["ČTK",2,"https://www.ceskenoviny.cz","Czech News Agency"]],
-   points:[
-    `<strong>The end of licence fees.</strong> On 15 June 2026 the government approved funding from the state budget, CZK 1.4 bn less; the Chamber sent the bill to second reading, expected around 15 Jan 2027. ${S("ČTK","https://www.ceskenoviny.cz/zpravy/2896300")}`,
-    `<strong>A fight over independence.</strong> The opposition, the Senate and staff warn that budget funding gives the government leverage over content; a merger of ČT and ČRo is not planned. ${S("ČTK","https://www.ceskenoviny.cz/index_view.php?id=2842077")}`,
-    `<strong>Who runs them.</strong> Directors are elected by councils, the councils by parliament; the coalition wants oversight by the Supreme Audit Office. ${S("ČTK","https://www.ceskenoviny.cz/zpravy/2815795")}`]}
  ]}
 ];
 
