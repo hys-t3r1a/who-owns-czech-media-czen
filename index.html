@@ -173,8 +173,7 @@ body.ig .igfoot strong{font-weight:700}
 .pmeta{font-size:12px;color:inherit;letter-spacing:.05em;text-transform:uppercase;margin:0 0 10px}
 /* photos: 15 % wider than their grid cell; the picture sits under the boxes (z 1 < 2), its credit above everything (z 3) so it is never hidden */
 .pphoto{position:relative;z-index:auto;min-width:0;width:115%;margin-left:var(--pml,-7.5%);aspect-ratio:4/3;background:#b9b9b9}
-.pphoto img{position:relative;z-index:1;display:block;width:100%;height:100%;object-fit:cover}
-.pphoto img.png{object-fit:contain}
+.pphoto img{position:relative;z-index:1;display:block;width:100%;height:100%;object-fit:contain}
 .pphoto.loaded{background:none}
 .pphoto.empty{background:#b7b7b7}
 /* photo credit box: text comes from foto-N.txt next to the page (line 1 Czech, optional line 2 English) */
@@ -677,7 +676,7 @@ function pubPanel(lang, media){
   const tw = str => String(str).split(' ').map(w => `<span class="tw">${w}</span>`).join(' ');
   const at = (c, r, mt, extra='') => `style="grid-column:${c};grid-row:${r};margin-top:${mt||0}px${extra}"`;
   const tag = k => `<span class="ptag ${k}">${P[k]}</span>`;
-  const photo = (n, c, r, mt, side) => `<figure class="pphoto${side?' l':''}" data-name="foto-${n}.jpg · ${lang==='en'?'credit':'popisek'}: foto-${n}.txt" ${at(c, r, mt, ';--pml:' + (c.startsWith('1 ') ? '0%' : / 13$/.test(c) ? '-15%' : '-7.5%'))}><img src="foto-${n}.jpg" data-n="${n}" alt="" loading="lazy" onerror="pubImgErr(this)" onload="pubImgOk(this)"><figcaption class="pcap" data-src="foto-${n}.txt" data-lang="${lang}" hidden></figcaption></figure>`;
+  const photo = (n, c, r, mt, side) => `<figure class="pphoto${side?' l':''}" data-name="foto-${n}.png / .jpg" ${at(c, r, mt, ';--pml:' + (c.startsWith('1 ') ? '0%' : / 13$/.test(c) ? '-15%' : '-7.5%'))}><img src="foto-${n}.jpg" data-n="${n}" alt="" loading="lazy" onerror="pubImgErr(this)" onload="pubImgOk(this)"></figure>`;
   const links = media.map(m => m[2] ? `<a href="${m[2]}" target="_blank" rel="noopener">${esc(m[0])}</a>` : esc(m[0])).join(' · ');
   const used = [...new Set(Object.keys(PSRC))];
   return `<div class="pubgfx" lang="${lang}">
@@ -685,16 +684,16 @@ function pubPanel(lang, media){
   ${photo(1, '7 / 11', '1 / 3', 70)}
   <div class="pbox phead" ${at('9 / 13', '1', 0, ';align-self:end')}><div class="lbl"><span class="pno">01</span>${tag('now')}</div><h4>${tw(P.s1)}</h4></div>
   ${P.orgs.map((o, i) => `<div class="pbox" ${at(['1 / 5','5 / 9','9 / 13'][i], '2', 0)}><h4>${tw(o[0])}</h4><span class="pnum">${tw(o[2])}</span><p><strong>${o[1]}.</strong> ${o[3]}</p></div>`).join('')}
-  ${photo(4, '8 / 12', '3 / 6', 30)}
+  ${photo(2, '8 / 12', '3 / 6', 30)}
   <div class="pbox pnote" ${at('2 / 8', '3', 0)}><div class="pchain">${P.chain.map(([n, v]) => `<b>${n}</b>${v ? `<i>${v}</i>` : ''}`).join('')}</div><p>${P.s1note}</p></div>
   <div class="pbox phead" ${at('6 / 12', '5', 0)}><div class="lbl"><span class="pno">02</span>${tag('now')}</div><h3>${tw(P.s2)}</h3></div>
-  ${photo(2, '1 / 5', '5 / 7', 20, true)}
+  ${photo(3, '1 / 5', '5 / 7', 20, true)}
   ${P.money.map((m, i) => `<div class="pbox" ${at(['1 / 5','5 / 9','9 / 13'][i], '6', 0)}><h4>${tw(m[0])}</h4><span class="pnum">${tw(m[1])} <small>${m[2]}</small></span><p>${m[3]}</p></div>`).join('')}
-  ${photo(5, '9 / 13', '7 / 9', 30)}
+  ${photo(4, '9 / 13', '7 / 9', 30)}
   <div class="pbox pnote" ${at('1 / 8', '7', 30)}><h4>${tw(P.quote)}</h4></div>
   <div class="pbox phead" ${at('1 / 8', '8', 10)}><div class="lbl"><span class="pno">03</span>${tag('prop')}<span class="pmeta" style="margin:0">${P.s3meta}</span></div><h3>${tw(P.s3)}</h3><p>${P.s3text}</p><p><strong>${P.s3still}</strong></p></div>
   <div class="pbox" ${at('8 / 13', '8', 60)}><h4>${tw(P.amounts)}</h4>${P.amt.map(a => `<p><span class="pnum">${tw(a[0]+" "+a[1])}</span>${a[2]}</p>`).join('')}<p class="psrc">${P.amtnote}</p></div>
-  ${photo(3, '8 / 13', '9 / 11', 0)}
+  ${photo(5, '8 / 13', '9 / 11', 0)}
   <div class="pbox phead" ${at('1 / 8', '9', 20)}><div class="lbl"><span class="pno">04</span>${tag('risk')}</div><h3>${tw(P.s4)}</h3></div>
   ${P.scen.map((s, i) => `<div class="pbox" ${at(['1 / 5','5 / 9','9 / 13'][i], '10', [0, 40, 110][i])}><div class="lbl"><span class="pno">${s[0]}</span></div><h4>${tw(s[1])}</h4><p>${s[2]}</p></div>`).join('')}
   <div class="pbox pnote" ${at('2 / 7', '11', 0)}><h4>${tw(P.ctkTitle)}</h4><p>${P.ctkText}</p></div>
@@ -761,18 +760,6 @@ const capRO = ('ResizeObserver' in window) ? new ResizeObserver(es => es.forEach
 function initPub(root){
   if (capRO) root.querySelectorAll('.pubgfx').forEach(g => capRO.observe(g));
   root.querySelectorAll('.pubgfx .pbox').forEach((b, i) => { b.dataset.seed = 11 + i * 37; drawEdge(b); if (edgeRO) edgeRO.observe(b); });
-  /* photo credits: read foto-N.txt once per file; line 1 = Czech, line 2 = English (falls back to line 1) */
-  const cache = {};
-  root.querySelectorAll('.pcap[data-src]').forEach(cap => {
-    const src = cap.dataset.src;
-    (cache[src] = cache[src] || fetch(src, { cache: 'no-cache' }).then(r => r.ok ? r.text() : '').catch(() => ''))
-      .then(txt => {
-        if (/<html|<!doctype/i.test(txt)) return;           // a 404 page served as text, not a credit
-        const lines = txt.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
-        const line = cap.dataset.lang === 'en' ? (lines[1] || lines[0]) : lines[0];
-        if (line) { cap.textContent = line; cap.hidden = false; placeCaps(cap.closest('.pubgfx')); }
-      });
-  });
 }
 
 const twWords = str => esc(str).split(' ').map(w => `<span class="tw">${w}</span>`).join(' ');
