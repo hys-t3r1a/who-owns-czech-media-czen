@@ -174,7 +174,8 @@ body.ig .igfoot strong{font-weight:700}
 /* photos: 15 % wider than their grid cell; the picture sits under the boxes (z 1 < 2), its credit above everything (z 3) so it is never hidden */
 /* desktop: photos are much wider than their cell and run out to the panel edge; the negative bottom margin keeps them from stretching the grid rows */
 .pphoto{position:relative;z-index:auto;min-width:0;width:var(--pw);margin-left:var(--pml,0);margin-bottom:calc(var(--pw) * -.75);translate:0 var(--ty,0);aspect-ratio:4/3;background:#b9b9b9}
-.pphoto img{position:relative;z-index:1;display:block;width:100%;height:100%;object-fit:contain}
+.pphoto img{position:relative;z-index:1;display:block;width:100%;height:100%;object-fit:contain;object-position:right top}
+.pphoto.l img{object-position:left top}
 .pphoto.loaded{background:none}
 .pphoto.mob{display:none}
 .pphoto.empty{background:#b7b7b7}
@@ -192,6 +193,7 @@ body.ig .igfoot strong{font-weight:700}
   .pubgfx>.pphoto,.pubgfx>.pphoto.l{margin:-44px -12px!important}
   .pbox{padding:28px 18px 22px}
   .pphoto{width:auto;translate:none}
+  .pphoto img,.pphoto.l img{object-position:center}
   .pphoto.mob{display:block}
   .psrc ol{columns:1}
 }
@@ -674,7 +676,7 @@ const PUB = {
 };
 
 /* desktop tweaks per photo: --ty moves it up/down, --pw sets its width (phone ignores both) */
-const PHOTO_STYLE = {1: ';--ty:calc(-1 * var(--pad))', 3: ';--ty:-210px', 4: ';--ty:-350px', 5: ';--pw:130%'};
+const PHOTO_STYLE = {1: ';--ty:calc(-1 * var(--pad))', 3: ';--ty:-210px', 4: ';--ty:-350px', 5: ';--pw:130%;--ty:-90px'};
 /* layout: [grid-column, grid-row, margin-top] per piece on the 12-column collage */
 function pubPanel(lang, media){
   const P = PUB[lang];
@@ -690,7 +692,7 @@ function pubPanel(lang, media){
   <div class="pbox phead" ${at('9 / 13', '1', 0, ';align-self:end')}><div class="lbl"><span class="pno">01</span>${tag('now')}</div><h4>${tw(P.s1)}</h4></div>
   ${P.orgs.map((o, i) => `<div class="pbox" ${at(['1 / 5','5 / 9','9 / 13'][i], '2', 0)}><h4>${tw(o[0])}</h4><span class="pnum">${tw(o[2])}</span><p><strong>${o[1]}.</strong> ${o[3]}</p></div>`).join('')}
   ${photo(2, '8 / 13', '3 / 6', 80)}
-  <div class="pbox pnote" ${at('2 / 8', '3', 0)}><div class="pchain">${P.chain.map(([n, v]) => `<b>${n}</b>${v ? `<i>${v}</i>` : ''}`).join('')}</div><p>${P.s1note}</p></div>
+  <div class="pbox pnote" ${at('7 / 13', '3', 0)}><div class="pchain">${P.chain.map(([n, v]) => `<b>${n}</b>${v ? `<i>${v}</i>` : ''}`).join('')}</div><p>${P.s1note}</p></div>
   <div class="pbox phead" ${at('6 / 12', '5', 0)}><div class="lbl"><span class="pno">02</span>${tag('now')}</div><h3>${tw(P.s2)}</h3></div>
   ${photo(3, '1 / 5', '5 / 7', 20, true)}
   ${P.money.map((m, i) => `<div class="pbox" ${at(['1 / 5','5 / 9','9 / 13'][i], '6', 0)}><h4>${tw(m[0])}</h4><span class="pnum">${tw(m[1])} <small>${m[2]}</small></span><p>${m[3]}</p></div>`).join('')}
