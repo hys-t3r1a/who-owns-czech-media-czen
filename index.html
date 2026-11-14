@@ -28,8 +28,19 @@ a:focus-visible,[role="button"]:focus-visible,button:focus-visible{outline:2px s
 /* the tall, condensed-looking Arial used for names, media, shares and point numbers */
 .tall{font-weight:700;text-transform:uppercase;letter-spacing:-.01em;display:inline-block;transform:scaleY(1.22);transform-origin:center;line-height:1.1}
 
-.band{background:var(--ink);color:var(--paper);overflow:hidden;white-space:nowrap;font-size:12px;letter-spacing:.04em;padding-block:5px}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+.band{background:var(--ink);color:var(--paper);overflow:hidden;white-space:nowrap;font-size:8.5px;font-weight:600;letter-spacing:.06em;padding-block:5px}
+/* stretched upwards like the headlines */
+.band>span{transform:scaleY(1.35);transform-origin:center}
 .band span{display:inline-block;padding-left:16px}
+.band a{color:inherit;text-decoration:underline;text-underline-offset:2px}
+/* phone: the band scrolls so the whole text (and the MediaGuru link) gets seen; three identical copies -> move by one third for a seamless loop */
+@media (max-width:820px) and (prefers-reduced-motion:no-preference){
+  .band>span{padding-left:0}
+  .band .l-cs,.band .l-en{padding-left:0;animation:bandmove 38s linear infinite}
+  .band:active .l-cs,.band:active .l-en{animation-play-state:paused}
+}
+@keyframes bandmove{from{transform:translateX(0)}to{transform:translateX(-33.3333%)}}
 .tools{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:flex-end;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:10px 0;font-size:12px;text-transform:uppercase;letter-spacing:.06em}
 .tools button{font:inherit;text-transform:inherit;letter-spacing:inherit;background:none;border:0;padding:0;cursor:pointer;color:var(--ink);text-decoration:underline;text-underline-offset:3px}
 body:not(.en) .l-en,body.en .l-cs{display:none!important}
@@ -102,11 +113,17 @@ h1{font-weight:700;font-size:clamp(40px,8.4vw,104px);line-height:.98;letter-spac
 .tgrid{position:relative}
 .tfine{display:grid}
 .tfine .cell{aspect-ratio:1/1;--t:0px;--b:0px;--l:0px;--r:0px;--tl:0px;--tr:0px;--bl:0px;--br:0px}
-.tfine .cell.on,.tfine .cell.trail,.tfine .cell.wc{background:var(--ink)}
+.tfine .cell.on,.tfine .cell.trail,.tfine .cell.wc,.tfine .cell.fl{background:var(--ink)}
 .tfine .cell.wc{cursor:pointer}
-.tfine .cell.on,.tfine .cell.trail,.tfine .cell.wc{box-shadow:0 0 0 .6px var(--ink)}
-/* outline drawn with background layers only (inset box-shadow is dropped by Safari when exporting the PNG) */
-.tfine .cell.wc.w{box-shadow:none;background:linear-gradient(var(--ink),var(--ink)) 0 0/100% var(--t) no-repeat,linear-gradient(var(--ink),var(--ink)) 0 100%/100% var(--b) no-repeat,linear-gradient(var(--ink),var(--ink)) 0 0/var(--l) 100% no-repeat,linear-gradient(var(--ink),var(--ink)) 100% 0/var(--r) 100% no-repeat,linear-gradient(var(--ink),var(--ink)) 0 0/var(--tl) var(--tl) no-repeat,linear-gradient(var(--ink),var(--ink)) 100% 0/var(--tr) var(--tr) no-repeat,linear-gradient(var(--ink),var(--ink)) 0 100%/var(--bl) var(--bl) no-repeat,linear-gradient(var(--ink),var(--ink)) 100% 100%/var(--br) var(--br) no-repeat,#fff}
+.tfine .cell.on,.tfine .cell.trail,.tfine .cell.wc,.tfine .cell.fl{box-shadow:0 0 0 .6px var(--ink)}
+/* white word: the cells turn white and one SVG outline per word draws a continuous black line (no seams between cells) */
+.tfine .cell.wc.w{box-shadow:none;background:var(--paper)}
+.wsvg{position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible;pointer-events:none;z-index:1}
+.wsvg .wo{visibility:hidden}
+.wsvg .wo.w{visibility:visible}
+.wsvg .f{fill:var(--paper);shape-rendering:crispEdges}
+.wsvg .s{fill:none;stroke:var(--ink);stroke-width:2.5px;vector-effect:non-scaling-stroke;stroke-linecap:square;stroke-linejoin:miter}
+.glyph{z-index:2}
 /* every letter sits centred in a block of identical size; the block is ~20 % taller and wider than the letter incl. diacritics */
 .glyph{position:absolute;display:grid;place-items:center;pointer-events:none;color:#fff;font-weight:700;font-size:4.05cqw;line-height:1;text-transform:uppercase}
 .glyph span{display:block;transform:translateY(.06em) scaleY(1.58)}
@@ -226,7 +243,7 @@ body.ig .igfoot strong{font-weight:700}
 }
 </style>
 
-<div class="band" aria-hidden="true"><span><span class="l-cs">STAV K 9. 11. 2026 ○ AKTUALIZACE INFOGRAFIKY NFPK ○ ZDROJE 2025–2026 ○ STAV K 9. 11. 2026 ○ AKTUALIZACE INFOGRAFIKY NFPK ○ ZDROJE 2025–2026 ○ STAV K 9. 11. 2026 ○ AKTUALIZACE INFOGRAFIKY NFPK ○ ZDROJE 2025–2026 ○ </span><span class="l-en" lang="en">STATUS AS OF 9 NOV 2026 ○ UPDATE OF THE NFPK INFOGRAPHIC ○ SOURCES 2025–2026 ○ STATUS AS OF 9 NOV 2026 ○ UPDATE OF THE NFPK INFOGRAPHIC ○ SOURCES 2025–2026 ○ STATUS AS OF 9 NOV 2026 ○ UPDATE OF THE NFPK INFOGRAPHIC ○ SOURCES 2025–2026 ○ </span></span></div>
+<div class="band"><span><span class="l-cs">STAV K 9. 11. 2026 ○ AKTUALIZACE <a href="https://www.mediaguru.cz/aktualizovana-mapa-vlastniku-ceskych-medii-2024" target="_blank" rel="noopener">MAPY VLASTNÍKŮ MEDIAGURU</a> A <a href="https://www.nfpk.cz/aktuality/o---kdo-a-proc-vlastni-ceska-media" target="_blank" rel="noopener">INFOGRAFIKY NFPK</a> ○ ZDROJE 2025–2026 ○ STAV K 9. 11. 2026 ○ AKTUALIZACE <a href="https://www.mediaguru.cz/aktualizovana-mapa-vlastniku-ceskych-medii-2024" target="_blank" rel="noopener">MAPY VLASTNÍKŮ MEDIAGURU</a> A <a href="https://www.nfpk.cz/aktuality/o---kdo-a-proc-vlastni-ceska-media" target="_blank" rel="noopener">INFOGRAFIKY NFPK</a> ○ ZDROJE 2025–2026 ○ STAV K 9. 11. 2026 ○ AKTUALIZACE <a href="https://www.mediaguru.cz/aktualizovana-mapa-vlastniku-ceskych-medii-2024" target="_blank" rel="noopener">MAPY VLASTNÍKŮ MEDIAGURU</a> A <a href="https://www.nfpk.cz/aktuality/o---kdo-a-proc-vlastni-ceska-media" target="_blank" rel="noopener">INFOGRAFIKY NFPK</a> ○ ZDROJE 2025–2026 ○ </span><span class="l-en" lang="en">STATUS AS OF 9 NOV 2026 ○ UPDATE OF THE <a href="https://www.mediaguru.cz/aktualizovana-mapa-vlastniku-ceskych-medii-2024" target="_blank" rel="noopener">MEDIAGURU OWNER MAP</a> AND THE <a href="https://www.nfpk.cz/aktuality/o---kdo-a-proc-vlastni-ceska-media" target="_blank" rel="noopener">NFPK INFOGRAPHIC</a> ○ SOURCES 2025–2026 ○ STATUS AS OF 9 NOV 2026 ○ UPDATE OF THE <a href="https://www.mediaguru.cz/aktualizovana-mapa-vlastniku-ceskych-medii-2024" target="_blank" rel="noopener">MEDIAGURU OWNER MAP</a> AND THE <a href="https://www.nfpk.cz/aktuality/o---kdo-a-proc-vlastni-ceska-media" target="_blank" rel="noopener">NFPK INFOGRAPHIC</a> ○ SOURCES 2025–2026 ○ STATUS AS OF 9 NOV 2026 ○ UPDATE OF THE <a href="https://www.mediaguru.cz/aktualizovana-mapa-vlastniku-ceskych-medii-2024" target="_blank" rel="noopener">MEDIAGURU OWNER MAP</a> AND THE <a href="https://www.nfpk.cz/aktuality/o---kdo-a-proc-vlastni-ceska-media" target="_blank" rel="noopener">NFPK INFOGRAPHIC</a> ○ SOURCES 2025–2026 ○ </span></span></div>
 <div class="tools">
   <button type="button" id="langBtn"><span class="l-cs">English</span><span class="l-en" lang="en">Česky</span></button>
   <button type="button" id="pngExport"><span class="l-cs">PNG export</span><span class="l-en" lang="en">PNG export</span></button>
@@ -282,7 +299,7 @@ const groupsCs = [
  {name:"Mafra a Londa", owners:[
   {who:"Karel Pražák", ini:"KP", alert:false, share:"50 %", hold:"Kaprain", biz:"chemie, developerské projekty, sport (HC Sparta, FK Pardubice)",
    profile:"https://forbes.cz/lists/nc25/karel-prazak/",
-   media:[["MF Dnes",0,"https://www.idnes.cz","celostátní deník"],["iDNES.cz",0,"https://www.idnes.cz","zpravodajský web"],["Lidovky.cz",0,"https://www.lidovky.cz","tištěné LN skončily 8/2025"],["Metro",0,"https://www.metro.cz","bezplatný deník"],["Rádio Impuls",0,"https://www.impuls.cz","Londa"]],
+   media:[["MF Dnes",0,"https://www.idnes.cz","celostátní deník"],["iDNES.cz",0,"https://www.idnes.cz","zpravodajský web"],["Lidovky.cz",0,"https://www.lidovky.cz","tištěné LN skončily 8/2024"],["Metro",0,"https://www.metro.cz","bezplatný deník"],["Rádio Impuls",0,"https://www.impuls.cz","Londa"]],
    points:[
     `<strong>Koupil Mafru od Babiše.</strong> Kaprain převzal Mafru a Londu od Agrofertu k 1. 2. 2024, spolu s chemičkou Synthesia. ${S("ČT24","https://ct24.ceskatelevize.cz/clanek/ekonomika/mafru-a-synthesii-koupila-od-agrofertu-skupina-kaprain-podnikatele-prazaka-2490")}`,
     `<strong>Vyrostl v PPF, dnes je s ní ve sporu.</strong> Byl krizovým manažerem Petra Kellnera; nákup financoval úvěr od Penty, majitele konkurenčního VLM. ${S("Seznam Zprávy","https://www.seznamzpravy.cz/clanek/ekonomika-firmy-skupina-kaprain-miliardare-prazaka-se-chce-zbavit-uveru-od-penty-277130")}`,
@@ -291,7 +308,7 @@ const groupsCs = [
    profile:"https://en.wikipedia.org/wiki/Pavel_Tyka%C4%8D",
    media:[["MF Dnes",0,"https://www.idnes.cz","od 29. 5. 2026"],["iDNES.cz",0,"https://www.idnes.cz",""],["Lidovky.cz",0,"https://www.lidovky.cz",""],["Metro",0,"https://www.metro.cz",""],["Rádio Impuls",0,"https://www.impuls.cz",""]],
    points:[
-    `<strong>Uhlobaron v médiích.</strong> Sev.en vlastní lomy na Mostecku a elektrárny Počerady a Chvaletice, jejichž uzavření ohlásila na přelom 2026/2027. ${S("ČT24","https://ct24.ceskatelevize.cz/tema/pavel-tykac-4872")}`,
+    `<strong>Uhlobaron v médiích.</strong> Sev.en vlastní lomy na Mostecku a elektrárny Počerady a Chvaletice. Jejich uzavření ohlásila na přelom 2026/2027, teď slibuje provoz nejméně do 31. 3. 2027. ${S("ČTK","https://www.ceskenoviny.cz/zpravy/2890397")}`,
     `<strong>Minulost Motoinvestu.</strong> Kvůli tunelu v CS fondech čelil v letech 2006–2008 obvinění; stíhání bylo zastaveno, odsouzeni byli jiní. Podíl na tunelu odmítá. ${S("E15","https://www.e15.cz/domaci/stihani-tykace-kvuli-cs-fondum-je-zastaveno-svedci-odmitli-vypovidat-1258334")}`,
     `<strong>Rodina a Slavia ve vedení.</strong> Do dozorčí rady Mafry usedla jeho dcera, do představenstva člen vedení Slavie. ${S("MediaGuru","https://www.mediaguru.cz/tykac-oficialne-prebira-podil-v-mafre-dcera-usedne-v-dozorci-rade")}`]}
  ]},
@@ -361,12 +378,12 @@ const groupsCs = [
    points:[
     `<strong>Neviditelný majitel.</strong> Rozhovory nedává, Forbes ho popisuje jako magnáta, který se vyhýbá médiím. ${S("Forbes","https://forbes.cz/lists/nc25/ivan-zach/")}`,
     `<strong>Sporné zpravodajství 2015.</strong> Nahrávka zveřejněná HlídacímPsem ukazovala pokyn k protiuprchlickému postoji; RRTV našla sporné momenty, řízení nezahájila. ${S("E15","https://www.e15.cz/byznys/ostatni/medialni-obchod-roku-miliardar-zach-ovladl-televizi-prima-1328046")}`,
-    `<strong>Průmysl a nově zemědělství.</strong> GES v roce 2025 koupila zemědělský podnik s 2 800 ha; dotace jsou téma, o kterém Prima informuje. ${S("MUP 2026","https://mup.rozanek.cz/prezentace_vlastnici_medii_2026.pdf")}`]}
+    `<strong>Průmysl a nově zemědělství.</strong> GES hospodaří asi na 12 000 ha, koupila mj. Agro Střed a ZS Dublovice (téměř 3 000 ha); dotace jsou téma, o kterém Prima informuje. ${S("Forbes","https://forbes.cz/lists/nc26/ivan-zach/")}`]}
  ]},
  {name:"Empresa Media", owners:[
   {who:"Jan Čermák", ini:"JČ", alert:false, share:"100 %", hold:"S-24 holding", biz:"obchod s pohledávkami, nemovitosti, hotely",
    profile:"https://www.newstream.cz/stitek/jan-cermak", konkurz:true,
-   media:[["Týden",3,"","týdeník"],["Sedmička",3,"",""],["TV Barrandov",3,"","provozovatel v konkurzu od 4/2026"]],
+   media:[["Týden",3,"","týdeník"],["Sedmička",3,"",""],["TV Barrandov",3,"","studio v konkurzu od 4/2026, kanál vysílá dál přes S-24 akvizice II"]],
    points:[
     `<strong>Obchodník s dluhy.</strong> Empresu převzal přes Soukupovy dluhy; televizi chtěl „vyčistit a prodat“, firmy kupuje hlavně kvůli pozemkům. ${S("Newstream","https://www.newstream.cz/reality/televizi-barrandov-vycistime-pripravime-a-nasledne-prodame-rika-jan-cermak")}`,
     `<strong>Konec provozu.</strong> Reorganizace selhala, soud v květnu 2026 ukončil provoz firmy a správce chystá prodej ochranných známek, domén a archivu. ${S("Seznam Zprávy","https://www.seznamzpravy.cz/clanek/domaci-zivot-v-cesku-soud-ukoncil-provoz-firmy-barrandov-televizni-studio-podle-nej-neni-udrzitelny-307218")} ${S("MediaGuru","https://www.mediaguru.cz/provozovatel-skupiny-barrandov-pripravuje-zpenezeni-majetku")}`,
@@ -415,7 +432,7 @@ const groupsCs = [
    media:[["HlídacíPes.org",0,"https://hlidacipes.org","investigativa"]],
    points:[
     `<strong>Neziskový provozovatel.</strong> Vede ho Ondřej Neumann, financuje se z darů a grantů. ${S("Výroční zpráva","https://hlidacipes.org/src/uploads/2025/08/Vyrocni-zprava-2024-def-1.pdf")}`,
-    `<strong>Propojení s Economií.</strong> Předsedkyní správní rady je Lenka Černá, ředitelka Bakalovy Economie. ${S("Forbes","https://forbes.cz/lists/zeny23/lenka-cerna/")}`,
+    `<strong>Propojení s Economií.</strong> V ústavu působí Lenka Černá, generální ředitelka Bakalovy Economie. ${S("Forbes","https://forbes.cz/lists/zeny26/lenka-cerna/")}`,
     `<strong>Start z průmyslových peněz.</strong> Rozjezd podpořil Nadační fond českých průmyslníků, později Pavel Baudiš. ${S("MediaGuru","https://www.mediaguru.cz/baudis-podporil-web-hlidacipes-org-ten-organizuje-sbirku")}`]},
   {who:"Sabina Slonková", ini:"SS", alert:false, share:"100 %", hold:"Dead Line Media", biz:"novinářka, šéfredaktorka Neovlivní.cz",
    profile:"https://www.podnikatel.cz/rejstrik/dead-line-media-s-r-o-03664317/",
@@ -439,7 +456,7 @@ const groupsEn = [
  {name:"Mafra a Londa", owners:[
   {who:"Karel Pražák", ini:"KP", alert:false, share:"50%", hold:"Kaprain", biz:"chemicals, real-estate development, sport (HC Sparta, FK Pardubice)",
    profile:"https://forbes.cz/lists/nc25/karel-prazak/",
-   media:[["MF Dnes",0,"https://www.idnes.cz","national daily"],["iDNES.cz",0,"https://www.idnes.cz","news site"],["Lidovky.cz",0,"https://www.lidovky.cz","print Lidové noviny ended 8/2025"],["Metro",0,"https://www.metro.cz","free daily"],["Rádio Impuls",0,"https://www.impuls.cz","Londa"]],
+   media:[["MF Dnes",0,"https://www.idnes.cz","national daily"],["iDNES.cz",0,"https://www.idnes.cz","news site"],["Lidovky.cz",0,"https://www.lidovky.cz","print Lidové noviny ended 8/2024"],["Metro",0,"https://www.metro.cz","free daily"],["Rádio Impuls",0,"https://www.impuls.cz","Londa"]],
    points:[
     `<strong>Bought Mafra from Babiš.</strong> Kaprain took over Mafra and Londa from Agrofert on 1 Feb 2024, together with the chemical company Synthesia. ${S("ČT24","https://ct24.ceskatelevize.cz/clanek/ekonomika/mafru-a-synthesii-koupila-od-agrofertu-skupina-kaprain-podnikatele-prazaka-2490")}`,
     `<strong>Made his name at PPF, now in dispute with it.</strong> He was Petr Kellner's crisis manager; the purchase was financed by a loan from Penta, owner of rival VLM. ${S("Seznam Zprávy","https://www.seznamzpravy.cz/clanek/ekonomika-firmy-skupina-kaprain-miliardare-prazaka-se-chce-zbavit-uveru-od-penty-277130")}`,
@@ -448,7 +465,7 @@ const groupsEn = [
    profile:"https://en.wikipedia.org/wiki/Pavel_Tyka%C4%8D",
    media:[["MF Dnes",0,"https://www.idnes.cz","since 29 May 2026"],["iDNES.cz",0,"https://www.idnes.cz",""],["Lidovky.cz",0,"https://www.lidovky.cz",""],["Metro",0,"https://www.metro.cz",""],["Rádio Impuls",0,"https://www.impuls.cz",""]],
    points:[
-    `<strong>A coal baron in the media.</strong> Sev.en owns mines in the Most region and the Počerady and Chvaletice power plants, which it plans to close around 2026/2027. ${S("ČT24","https://ct24.ceskatelevize.cz/tema/pavel-tykac-4872")}`,
+    `<strong>A coal baron in the media.</strong> Sev.en owns mines in the Most region and the Počerady and Chvaletice power plants. It announced their closure for around the turn of 2026/2027 and now says they will run until at least 31 Mar 2027. ${S("ČTK","https://www.ceskenoviny.cz/zpravy/2890397")}`,
     `<strong>The Motoinvest past.</strong> He faced charges in 2006–2008 over the asset stripping of CS fondy; the prosecution was dropped and others were convicted. He denies any part in it. ${S("E15","https://www.e15.cz/domaci/stihani-tykace-kvuli-cs-fondum-je-zastaveno-svedci-odmitli-vypovidat-1258334")}`,
     `<strong>Family and Slavia on the boards.</strong> His daughter joined Mafra's supervisory board and a Slavia executive joined the management board. ${S("MediaGuru","https://www.mediaguru.cz/tykac-oficialne-prebira-podil-v-mafre-dcera-usedne-v-dozorci-rade")}`]}
  ]},
@@ -518,12 +535,12 @@ const groupsEn = [
    points:[
     `<strong>An invisible owner.</strong> He gives no interviews; Forbes describes him as a tycoon who avoids the media. ${S("Forbes","https://forbes.cz/lists/nc25/ivan-zach/")}`,
     `<strong>Contested news coverage in 2015.</strong> A recording published by HlídacíPes showed an instruction to take an anti-refugee line; the broadcasting council found questionable moments but opened no proceedings. ${S("E15","https://www.e15.cz/byznys/ostatni/medialni-obchod-roku-miliardar-zach-ovladl-televizi-prima-1328046")}`,
-    `<strong>Industry and now farming.</strong> In 2025 GES bought a farming company with 2,800 ha; subsidies are a topic Prima reports on. ${S("MUP 2026","https://mup.rozanek.cz/prezentace_vlastnici_medii_2026.pdf")}`]}
+    `<strong>Industry and now farming.</strong> GES farms about 12,000 ha and has bought, among others, Agro Střed and ZS Dublovice (almost 3,000 ha); subsidies are a topic Prima reports on. ${S("Forbes","https://forbes.cz/lists/nc26/ivan-zach/")}`]}
  ]},
  {name:"Empresa Media", owners:[
   {who:"Jan Čermák", ini:"JČ", alert:false, share:"100%", hold:"S-24 holding", biz:"debt trading, real estate, hotels",
    profile:"https://www.newstream.cz/stitek/jan-cermak", konkurz:true,
-   media:[["Týden",3,"","weekly"],["Sedmička",3,"",""],["TV Barrandov",3,"","operator insolvent since 4/2026"]],
+   media:[["Týden",3,"","weekly"],["Sedmička",3,"",""],["TV Barrandov",3,"","studio bankrupt since 4/2026; the channel still broadcasts via S-24 akvizice II"]],
    points:[
     `<strong>A debt trader.</strong> He took over Empresa through Soukup's debts; he wanted to “clean up and sell” the TV station and buys companies mainly for their land. ${S("Newstream","https://www.newstream.cz/reality/televizi-barrandov-vycistime-pripravime-a-nasledne-prodame-rika-jan-cermak")}`,
     `<strong>Operations ended.</strong> The reorganisation failed; in May 2026 the court ended the company's operations and the administrator is preparing to sell its trademarks, domains and archive. ${S("Seznam Zprávy","https://www.seznamzpravy.cz/clanek/domaci-zivot-v-cesku-soud-ukoncil-provoz-firmy-barrandov-televizni-studio-podle-nej-neni-udrzitelny-307218")} ${S("MediaGuru","https://www.mediaguru.cz/provozovatel-skupiny-barrandov-pripravuje-zpenezeni-majetku")}`,
@@ -572,7 +589,7 @@ const groupsEn = [
    media:[["HlídacíPes.org",0,"https://hlidacipes.org","investigative"]],
    points:[
     `<strong>A non-profit operator.</strong> Run by Ondřej Neumann and funded by donations and grants. ${S("Annual report","https://hlidacipes.org/src/uploads/2025/08/Vyrocni-zprava-2024-def-1.pdf")}`,
-    `<strong>Link to Economia.</strong> The board is chaired by Lenka Černá, CEO of Bakala's Economia. ${S("Forbes","https://forbes.cz/lists/zeny23/lenka-cerna/")}`,
+    `<strong>Link to Economia.</strong> Lenka Černá, CEO of Bakala's Economia, is involved in the institute. ${S("Forbes","https://forbes.cz/lists/zeny26/lenka-cerna/")}`,
     `<strong>Started with industry money.</strong> Its launch was backed by the Czech Industrialists' Foundation, later by Pavel Baudiš. ${S("MediaGuru","https://www.mediaguru.cz/baudis-podporil-web-hlidacipes-org-ten-organizuje-sbirku")}`]},
   {who:"Sabina Slonková", ini:"SS", alert:false, share:"100%", hold:"Dead Line Media", biz:"journalist, editor-in-chief of Neovlivní.cz",
    profile:"https://www.podnikatel.cz/rejstrik/dead-line-media-s-r-o-03664317/",
@@ -861,11 +878,11 @@ pngBtn.addEventListener('click', async () => {
       `\n[hidden]{display:none!important}html,body{margin:0;padding:0;background:#fff}
        body.ig .wrap{width:${W}px!important;margin:0!important;box-shadow:none!important}`;
     const clone = frame.cloneNode(true);
-    clone.querySelectorAll('.trail').forEach(c => c.classList.remove('trail'));
+    clone.querySelectorAll('.trail,.fl').forEach(c => c.classList.remove('trail', 'fl'));
     clone.querySelectorAll('.dossier').forEach(d => d.hidden = true);
     clone.querySelectorAll('img[onload],img[onerror]').forEach(i => { i.removeAttribute('onload'); i.removeAttribute('onerror'); });
     /* export look: every title word shown white (as if clicked) and a few extra 8x8 black squares at both ends for balance */
-    clone.querySelectorAll('.igt .cell.wc, .igt .glyph').forEach(c => c.classList.add('w'));
+    clone.querySelectorAll('.igt .cell.wc, .igt .glyph, .igt .wsvg .wo').forEach(c => c.classList.add('w'));
     clone.querySelectorAll('.igt .tfine').forEach(fn => {
       const FC = 192, cells = fn.children;
       EXPORT_BLOCKS.forEach(([r0, c0]) => { for (let r = r0; r < r0 + 8; r++) for (let c = c0; c < c0 + 8; c++) {
@@ -966,6 +983,18 @@ function makeTitle(box, g, cfg){
     if(same(r-1,c)&&same(r,c+1)&&!same(r-1,c+1))d.style.setProperty('--tr','2px');
     if(same(r+1,c)&&same(r,c-1)&&!same(r+1,c-1))d.style.setProperty('--bl','2px');
     if(same(r+1,c)&&same(r,c+1)&&!same(r+1,c+1))d.style.setProperty('--br','2px');}
+  { const NS='http://www.w3.org/2000/svg', svg=document.createElementNS(NS,'svg'), byWord={};
+    svg.setAttribute('class','wsvg'); svg.setAttribute('viewBox',`0 0 ${FC} ${FR}`); svg.setAttribute('preserveAspectRatio','none'); svg.setAttribute('aria-hidden','true');
+    for(const [k,wi] of owner)(byWord[wi]=byWord[wi]||[]).push(k);
+    for(const wi in byWord){const ks=byWord[wi].sort((x,y)=>x-y), same=(rr,cc)=>inb(rr,cc)&&owner.get(idx(rr,cc))===+wi;
+      let f='',st='';
+      for(let n=0;n<ks.length;){const r=Math.floor(ks[n]/FC),c0=ks[n]%FC;let c=c0;while(n+1<ks.length&&ks[n+1]===ks[n]+1&&Math.floor(ks[n+1]/FC)===r){n++;c++;}n++;f+=`M${c0} ${r}h${c-c0+1}v1h${-(c-c0+1)}z`;}
+      for(const k of ks){const r=Math.floor(k/FC),c=k%FC;
+        if(!same(r-1,c))st+=`M${c} ${r}h1`; if(!same(r+1,c))st+=`M${c} ${r+1}h1`;
+        if(!same(r,c-1))st+=`M${c} ${r}v1`; if(!same(r,c+1))st+=`M${c+1} ${r}v1`;}
+      const gEl=document.createElementNS(NS,'g'); gEl.setAttribute('class','wo'); gEl.dataset.word=wi;
+      gEl.innerHTML=`<path class="f" d="${f}"/><path class="s" d="${st}"/>`; svg.appendChild(gEl);}
+    g.appendChild(svg); }
   const paint=(r,c)=>{for(let dr=0;dr<thick;dr++)for(let dc=0;dc<thick;dc++){if(inb(r+dr,c+dc)&&!owner.has(idx(r+dr,c+dc)))cells[idx(r+dr,c+dc)].classList.add('on');}};
   const route=(a,b)=>{let [r,c]=a;const [r1,c1]=b;const mid=c+Math.round((c1-c)/2/step)*step;
     while(c!==mid){paint(r,c);c+=c<mid?1:-1;} while(r!==r1){paint(r,c);r+=r<r1?1:-1;} while(c!==c1){paint(r,c);c+=c<c1?1:-1;} paint(r,c);};
@@ -973,7 +1002,8 @@ function makeTitle(box, g, cfg){
   tails(route,ends);
   g.addEventListener('click',e=>{const d=e.target.closest('.cell.wc');if(!d)return;const wi=d.dataset.word;
     fine.querySelectorAll('.cell.wc[data-word="'+wi+'"]').forEach(x=>x.classList.toggle('w'));
-    glyphs.filter(x=>x.dataset.word===wi).forEach(x=>x.classList.toggle('w'));});
+    glyphs.filter(x=>x.dataset.word===wi).forEach(x=>x.classList.toggle('w'));
+    g.querySelectorAll('.wsvg .wo[data-word="'+wi+'"]').forEach(x=>x.classList.toggle('w'));});
   /* pointer trail: snapped to the grid step, stays for trailMs */
   const trail=new Map(); let last=null, raf=0;
   function mark(r,c){if(!inb(r,c))return;const i=idx(r,c);if(owner.has(i))return;cells[i].classList.add('trail');trail.set(i,performance.now());}
@@ -1027,6 +1057,27 @@ function fillHoles(cells, FC, FR, isBlack, cls){
   MOBILE_BLOCKS.forEach(([r0, c0]) => { for (let r = r0; r < r0 + 8 && r < 40; r++) for (let c = c0; c < c0 + 8 && c < 104; c++) {
     const cell = cells[r * 104 + c]; if (cell && !cell.classList.contains('wc')) cell.classList.add('mx'); } });
   fillHoles(cells, 104, 40, e => base(e) || e.classList.contains('mx'), 'mx'); });
+/* intro: for the first 6 s, a few random 8x8 squares wander across the web title, then it settles */
+(function introSquares(){
+  try { if (matchMedia('(prefers-reduced-motion: reduce)').matches) return; } catch (e) {}
+  const FC = 104, FR = 40, S = 8, grids = ['tgrid','tgridEn'].map(id => document.querySelector('#' + id + ' .tfine')).filter(Boolean);
+  if (!grids.length) return;
+  const rnd = n => Math.floor(Math.random() * n), cols = Math.floor(FC / S), rows = Math.floor(FR / S);
+  const walkers = Array.from({length: 5}, () => ({r: rnd(rows), c: rnd(cols), tail: []}));
+  const paint = (cls, on) => grids.forEach(g => { for (const [r0, c0] of cls) for (let r = r0 * S; r < r0 * S + S; r++) for (let c = c0 * S; c < c0 * S + S; c++) {
+    const cell = g.children[r * FC + c]; if (cell && !cell.classList.contains('wc')) cell.classList.toggle('fl', on); } });
+  const t0 = performance.now();
+  const id = setInterval(() => {
+    const old = walkers.flatMap(w => w.tail); paint(old, false);
+    if (performance.now() - t0 > 6000) { clearInterval(id); return; }
+    walkers.forEach(w => {
+      const [dr, dc] = [[0,1],[0,-1],[1,0],[-1,0],[0,1],[0,-1]][rnd(6)];
+      w.r = Math.min(rows - 1, Math.max(0, w.r + dr)); w.c = Math.min(cols - 1, Math.max(0, w.c + dc));
+      w.tail.unshift([w.r, w.c]); w.tail.length = Math.min(w.tail.length, 2);
+    });
+    paint(walkers.flatMap(w => w.tail), true);
+  }, 110);
+})();
 fitIg();
 </script>
 
