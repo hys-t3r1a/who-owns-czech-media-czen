@@ -172,10 +172,12 @@ body.ig .igfoot strong{font-weight:700}
 .ptag.risk{background:var(--grey);border-color:var(--grey);color:#fff}
 .pnum{font:700 clamp(30px,3.4vw,46px)/1.2 var(--sans);display:block;margin:2px 0 8px;white-space:nowrap}
 .pnum small{font-size:.42em;font-weight:700;letter-spacing:.02em}
-.pchain{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 6px;margin:6px 0 14px}
+/* the chain is always two lines: Parliament ➜ council ➜ / director ➜ institution */
+.pchain{display:flex;flex-direction:column;gap:2px;margin:6px 0 14px}
+.pchain .ln{display:flex;flex-wrap:nowrap;align-items:baseline;gap:5px;white-space:nowrap}
 .pchain b{display:inline-block;color:var(--blue);font-family:var(--sans);font-weight:700;font-size:clamp(17px,1.6vw,22px);line-height:1.3;text-transform:uppercase}
 .pchain i{font-style:normal;font-size:12.5px;padding:0 2px;white-space:nowrap}
-.pchain i::after{content:" \25BA";font-size:.85em}
+.pchain i::after{content:" \279C"}
 .pmeta{font-size:12px;color:inherit;letter-spacing:.05em;text-transform:uppercase;margin:0 0 10px}
 /* photos: 15 % wider than their grid cell; the picture sits under the boxes (z 1 < 2), its credit above everything (z 3) so it is never hidden */
 /* desktop: photos are much wider than their cell and run out to the panel edge; the negative bottom margin keeps them from stretching the grid rows */
@@ -211,6 +213,11 @@ body.ig .igfoot strong{font-weight:700}
   body:not(.ig) .rowhead .media{grid-column:1 / 3}
   body:not(.ig) .rowhead .sh{grid-column:2;grid-row:1;text-align:right}
   .dossier{grid-template-columns:1fr}
+  .pchain b{font-size:min(20px,4.05vw)}
+  .pchain i{font-size:min(12.5px,2.9vw)}
+  /* outlets side by side on phones instead of one per line */
+  .outlets{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px 16px}
+  .outlets li{min-width:0;overflow-wrap:anywhere}
   .foot{grid-template-columns:1fr}
 }
 @media (prefers-reduced-motion:no-preference){
@@ -696,7 +703,7 @@ function pubPanel(lang, media){
   <div class="pbox phead" ${at('9 / 13', '1', 0, ';align-self:end')}><div class="lbl"><span class="pno">01</span>${tag('now')}</div><h4>${tw(P.s1)}</h4></div>
   ${P.orgs.map((o, i) => `<div class="pbox" ${at(['1 / 5','5 / 9','9 / 13'][i], '2', 0)}><h4>${tw(o[0])}</h4><span class="pnum">${tw(o[2])}</span><p><strong>${o[1]}.</strong> ${o[3]}</p></div>`).join('')}
   ${photo(2, '8 / 13', '3 / 6', 80)}
-  <div class="pbox pnote" ${at('7 / 13', '3', 0)}><div class="pchain">${P.chain.map(([n, v]) => `<b>${tw(n)}</b>${v ? `<i>${v}</i>` : ''}`).join('')}</div><p>${P.s1note}</p></div>
+  <div class="pbox pnote" ${at('7 / 13', '3', 0)}><div class="pchain">${[P.chain.slice(0, 2), P.chain.slice(2)].map(part => `<div class="ln">${part.map(([n, v]) => `<b>${tw(n)}</b>${v ? `<i>${v}</i>` : ''}`).join('')}</div>`).join('')}</div><p>${P.s1note}</p></div>
   <div class="pbox phead" ${at('6 / 12', '5', 0)}><div class="lbl"><span class="pno">02</span>${tag('now')}</div><h3>${tw(P.s2)}</h3></div>
   ${photo(3, '1 / 5', '5 / 7', 20, true)}
   ${P.money.map((m, i) => `<div class="pbox" ${at(['1 / 5','5 / 9','9 / 13'][i], '6', 0)}><h4>${tw(m[0])}</h4><span class="pnum">${tw(m[1])} <small>${m[2]}</small></span><p>${m[3]}</p></div>`).join('')}
