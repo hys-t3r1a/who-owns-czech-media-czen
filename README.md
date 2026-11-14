@@ -1,2 +1,2 @@
-# who-owns-czech-media-komu-pat-esk-m-diaa
-An updated list of czech media houses and their owners, made on the backgrounf of the 4:36 political scandal.
+# who-owns-czech-media-czen
+An updated overview of Czech media outlets and their ownership structures, compiled in the wake of the 4:36 political scandal.
